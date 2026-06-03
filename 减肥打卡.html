@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>减肥打卡</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    min-height: 100vh;
+  }
+
+  /* Setup screen */
+  #setup-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  .setup-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .setup-card .emoji { font-size: 56px; margin-bottom: 16px; }
+  .setup-card h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .setup-card p { color: #6e6e73; font-size: 15px; margin-bottom: 36px; line-height: 1.5; }
+  .setup-row { display: flex; gap: 12px; margin-bottom: 16px; }
+  .setup-row .field { flex: 1; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #6e6e73; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; text-align: left; }
+  .field input {
+    width: 100%;
+    border: 1.5px solid #e0e0e5;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 17px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input:focus { border-color: #007aff; }
+  .btn-primary {
+    width: 100%;
+    background: #007aff;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: #0066d6; }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* Main app */
+  #app-screen { display: none; }
+  header {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 { font-size: 20px; font-weight: 700; }
+  .header-meta { font-size: 13px; color: #6e6e73; }
+
+  .main-content { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* Progress hero */
+  .hero {
+    background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+    border-radius: 24px;
+    padding: 28px;
+    color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .hero-ring { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+  .hero-ring svg { width: 110px; height: 110px; transform: rotate(-90deg); }
+  .hero-ring .ring-bg { fill: none; stroke: rgba(255,255,255,0.2); stroke-width: 8; }
+  .hero-ring .ring-fill { fill: none; stroke: white; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+  .hero-ring .center-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .hero-ring .pct { font-size: 22px; font-weight: 800; color: white; line-height: 1; }
+  .hero-ring .pct-label { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 500; }
+  .hero-stats { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hero-stat .val { font-size: 26px; font-weight: 800; line-height: 1; }
+  .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
+  .hero-streak { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 12px; }
+
+  /* Today card */
+  .today-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .today-card h2 { font-size: 17px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .today-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .check-item {
+    border: 1.5px solid #e0e0e5;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: #007aff; background: #f0f6ff; }
+  .check-item.done { background: #e8f5e9; border-color: #34c759; }
+  .check-item .icon { font-size: 28px; margin-bottom: 6px; }
+  .check-item .name { font-size: 13px; font-weight: 600; color: #1d1d1f; }
+  .check-item .status { font-size: 11px; color: #6e6e73; margin-top: 2px; }
+  .check-item.done .status { color: #34c759; font-weight: 600; }
+
+  .weight-input-row {
+    display: flex; gap: 10px; margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid #f0f0f5;
+    align-items: flex-end;
+  }
+  .weight-field { flex: 1; }
+  .weight-field label { display: block; font-size: 12px; font-weight: 600; color: #6e6e73; margin-bottom: 6px; }
+  .weight-field input {
+    width: 100%;
+    border: 1.5px solid #e0e0e5;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .weight-field input:focus { border-color: #007aff; }
+  .note-field { flex: 2; }
+  .btn-log {
+    background: #007aff; color: white; border: none;
+    border-radius: 12px; padding: 11px 20px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    white-space: nowrap; transition: background 0.2s;
+    align-self: flex-end; height: 44px;
+  }
+  .btn-log:hover { background: #0066d6; }
+
+  /* Charts */
+  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .chart-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .chart-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #1d1d1f; }
+  .chart-wrap { position: relative; }
+
+  /* Heatmap */
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .heatmap-day-label { font-size: 10px; color: #6e6e73; text-align: center; font-weight: 600; }
+  .heatmap-cell {
+    aspect-ratio: 1;
+    border-radius: 5px;
+    background: #f0f0f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    cursor: default;
+    transition: transform 0.1s;
+    position: relative;
+  }
+  .heatmap-cell:hover { transform: scale(1.2); z-index: 1; }
+  .heatmap-cell.has-weight { background: #bfdbfe; }
+  .heatmap-cell.has-patch { background: #bbf7d0; }
+  .heatmap-cell.has-both { background: #a5f3fc; }
+  .heatmap-cell.today-cell { outline: 2px solid #007aff; outline-offset: 1px; }
+  .heatmap-legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6e6e73; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Log history */
+  .log-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+  }
+  .log-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .log-table th { text-align: left; color: #6e6e73; font-weight: 600; font-size: 12px; padding: 0 0 10px; border-bottom: 1px solid #f0f0f5; }
+  .log-table td { padding: 10px 0; border-bottom: 1px solid #f9f9fb; vertical-align: middle; }
+  .log-table tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .badge.green { background: #e8f5e9; color: #1a7f37; }
+  .badge.gray { background: #f0f0f5; color: #6e6e73; }
+  .badge.blue { background: #dbeafe; color: #1d4ed8; }
+  .delta-pos { color: #ff3b30; font-weight: 600; }
+  .delta-neg { color: #34c759; font-weight: 600; }
+
+  /* Settings */
+  .settings-btn {
+    background: none; border: none; cursor: pointer; color: #6e6e73;
+    font-size: 20px; padding: 4px 8px; border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .settings-btn:hover { background: #f0f0f5; }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4); z-index: 200;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white; border-radius: 20px; padding: 32px;
+    max-width: 380px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+  .modal .field { margin-bottom: 14px; }
+  .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-cancel {
+    flex: 1; background: #f0f0f5; color: #1d1d1f; border: none;
+    border-radius: 12px; padding: 13px; font-size: 15px;
+    font-weight: 600; cursor: pointer;
+  }
+  .modal-btns .btn-primary { flex: 1; margin: 0; }
+
+  /* Injection card */
+  .inj-card {
+    background: white; border-radius: 20px; padding: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+  }
+  .inj-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .inj-weeks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .inj-week {
+    border: 1.5px solid #e0e0e5; border-radius: 12px;
+    padding: 8px 14px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .inj-week:hover { border-color: #5856d6; background: #f5f3ff; }
+  .inj-week.done { background: #ede9fe; border-color: #5856d6; color: #5856d6; }
+
+  .empty-state { text-align: center; color: #6e6e73; padding: 24px; font-size: 14px; }
+
+  @media (max-width: 600px) {
+    .chart-grid { grid-template-columns: 1fr; }
+    .hero { flex-direction: column; text-align: center; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .today-grid { grid-template-columns: 1fr 1fr; }
+    .weight-input-row { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Setup Screen -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="emoji">🏃‍♀️</div>
+    <h1>减肥打卡</h1>
+    <p>设置你的起点和目标，开始记录每一天的变化。</p>
+    <div class="setup-row">
+      <div class="field">
+        <label>初始体重 (斤)</label>
+        <input type="number" id="setup-start" placeholder="150.0" step="0.5" min="60" max="400">
+      </div>
+      <div class="field">
+        <label>目标体重 (斤)</label>
+        <input type="number" id="setup-goal" placeholder="120.0" step="0.5" min="60" max="400">
+      </div>
+    </div>
+    <div class="field">
+      <label>你的身高 (cm) — 用于计算 BMI</label>
+      <input type="number" id="setup-height" placeholder="165" step="1" min="100" max="220">
+    </div>
+    <div class="field" style="margin-top:8px">
+      <label>药膏名称（可选）</label>
+      <input type="text" id="setup-patch-name" placeholder="例如：左旋肉碱贴片">
+    </div>
+    <div class="field">
+      <label>每周打针日（默认周一）</label>
+      <select id="setup-inject-day" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:12px 16px;font-size:15px;outline:none;">
+        <option value="1">周一</option>
+        <option value="2">周二</option>
+        <option value="3">周三</option>
+        <option value="4">周四</option>
+        <option value="5">周五</option>
+        <option value="6">周六</option>
+        <option value="0" selected>周日</option>
+      </select>
+    </div>
+    <button class="btn-primary" onclick="doSetup()">开始打卡 →</button>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app-screen">
+  <header>
+    <div>
+      <h1>减肥打卡 💪</h1>
+      <div class="header-meta" id="header-date"></div>
+    </div>
+    <button class="settings-btn" onclick="openSettings()" title="设置">⚙️</button>
+  </header>
+
+  <div class="main-content">
+
+    <!-- Hero Progress -->
+    <div class="hero" id="hero-section">
+      <div class="hero-ring">
+        <svg viewBox="0 0 110 110">
+          <circle class="ring-bg" cx="55" cy="55" r="46"/>
+          <circle class="ring-fill" id="ring-fill" cx="55" cy="55" r="46"
+            stroke-dasharray="289" stroke-dashoffset="289"/>
+        </svg>
+        <div class="center-text">
+          <div class="pct" id="ring-pct">0%</div>
+          <div class="pct-label">已完成</div>
+        </div>
+      </div>
+      <div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="val" id="stat-current">—</div>
+            <div class="label">当前体重 斤</div>
+          </div>
+          <div class="hero-stat">
+            <div class="val" id="stat-lost">—</div>
+            <div class="label">已减少 斤</div>
+          </div>
+          <div class="hero-stat">
+            <div class="val" id="stat-remain">—</div>
+            <div class="label" id="remain-label">距目标 斤</div>
+          </div>
+        </div>
+        <div class="hero-streak" id="hero-streak"></div>
+      </div>
+    </div>
+
+    <!-- Today Check-in -->
+    <div class="today-card">
+      <h2>📅 今日打卡</h2>
+      <div class="today-grid">
+        <div class="check-item" id="patch-item" onclick="togglePatch()">
+          <div class="icon">🩹</div>
+          <div class="name" id="patch-name-display">药膏</div>
+          <div class="status" id="patch-status">点击打卡</div>
+        </div>
+        <div class="check-item" id="inject-item" onclick="toggleInject()">
+          <div class="icon">💉</div>
+          <div class="name">本周打针</div>
+          <div class="status" id="inject-status">点击打卡</div>
+        </div>
+        <div class="check-item" id="bmi-display" style="cursor:default;">
+          <div class="icon">📊</div>
+          <div class="name">当前 BMI</div>
+          <div class="status" id="bmi-val" style="font-size:16px;font-weight:700;color:#1d1d1f;">—</div>
+        </div>
+      </div>
+      <div class="weight-input-row">
+        <div class="weight-field" style="flex:0.8">
+          <label>日期</label>
+          <input type="date" id="date-input" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:15px;font-weight:600;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#007aff'" onblur="this.style.borderColor='#e0e0e5'">
+        </div>
+        <div class="weight-field">
+          <label>空腹体重 (斤)</label>
+          <input type="number" id="weight-input" placeholder="0.0" step="0.5" min="60" max="400">
+        </div>
+        <div class="weight-field note-field">
+          <label>备注（可选）</label>
+          <input type="text" id="note-input" placeholder="例如：昨晚外食了">
+        </div>
+        <button class="btn-log" onclick="logWeight()">记录</button>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h2>📈 体重趋势</h2>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="weight-chart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h2>🔥 打卡热图（近28天）</h2>
+        <div class="heatmap-grid" id="heatmap"></div>
+        <div class="heatmap-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#bfdbfe"></div>记录体重</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#bbf7d0"></div>贴药膏</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a5f3fc"></div>两者皆有</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Injection tracker -->
+    <div class="inj-card">
+      <h2>💉 打针记录（按周）</h2>
+      <div class="inj-weeks" id="inj-weeks"></div>
+    </div>
+
+    <!-- Log history -->
+    <div class="log-card">
+      <h2>📋 历史记录</h2>
+      <div id="log-list"><div class="empty-state">还没有记录，去打第一个卡吧！</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>⚙️ 设置</h2>
+    <div class="field">
+      <label>初始体重 (斤)</label>
+      <input type="number" id="s-start" step="0.5">
+    </div>
+    <div class="field">
+      <label>目标体重 (斤)</label>
+      <input type="number" id="s-goal" step="0.5">
+    </div>
+    <div class="field">
+      <label>身高 (cm)</label>
+      <input type="number" id="s-height" step="1">
+    </div>
+    <div class="field">
+      <label>药膏名称</label>
+      <input type="text" id="s-patch-name">
+    </div>
+    <div class="field">
+      <label>每周打针日</label>
+      <select id="s-inject-day" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:12px 16px;font-size:15px;outline:none;">
+        <option value="1">周一</option><option value="2">周二</option><option value="3">周三</option>
+        <option value="4">周四</option><option value="5">周五</option><option value="6">周六</option>
+        <option value="0">周日</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeSettings()">取消</button>
+      <button class="btn-primary" onclick="saveSettings()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Data layer ───────────────────────────────────────────────────────────────
+let cfg = {};   // { startWeight, goalWeight, height, patchName, injectDay }
+let logs = {};  // { "2026-06-03": { weight, patch, note } }
+let injects = {}; // { "2026-W22": true }
+
+function save() {
+  localStorage.setItem('wl_cfg', JSON.stringify(cfg));
+  localStorage.setItem('wl_logs', JSON.stringify(logs));
+  localStorage.setItem('wl_injects', JSON.stringify(injects));
+}
+function load() {
+  try { cfg = JSON.parse(localStorage.getItem('wl_cfg')) || {}; } catch(e){ cfg={}; }
+  try { logs = JSON.parse(localStorage.getItem('wl_logs')) || {}; } catch(e){ logs={}; }
+  try { injects = JSON.parse(localStorage.getItem('wl_injects')) || {}; } catch(e){ injects={}; }
+}
+
+// ─── Date helpers ─────────────────────────────────────────────────────────────
+function today() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function weekKey(d) {
+  // ISO week
+  const date = d ? new Date(d) : new Date();
+  const jan4 = new Date(date.getFullYear(), 0, 4);
+  const startOfWeek = new Date(jan4);
+  startOfWeek.setDate(jan4.getDate() - (jan4.getDay()||7) + 1);
+  const weekNo = Math.ceil(((date - startOfWeek) / 86400000 + 1) / 7);
+  return date.getFullYear() + '-W' + String(weekNo).padStart(2,'0');
+}
+function formatDateCN(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+function getDaysBefore(n) {
+  const days = [];
+  for (let i = n-1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    days.push(s);
+  }
+  return days;
+}
+const DAY_NAMES = ['日','一','二','三','四','五','六'];
+
+// ─── Setup ────────────────────────────────────────────────────────────────────
+function doSetup() {
+  const s = parseFloat(document.getElementById('setup-start').value);
+  const g = parseFloat(document.getElementById('setup-goal').value);
+  const h = parseFloat(document.getElementById('setup-height').value);
+  if (!s || !g || s <= g || s < 60 || g < 60) { alert('请填写正确的初始体重和目标体重（单位：斤，目标体重应小于初始体重）'); return; }
+  if (!h || h < 100) { alert('请填写正确的身高'); return; }
+  cfg = {
+    startWeight: s, goalWeight: g, height: h,
+    patchName: document.getElementById('setup-patch-name').value || '药膏',
+    injectDay: parseInt(document.getElementById('setup-inject-day').value)
+  };
+  save();
+  showApp();
+}
+
+// ─── Settings modal ───────────────────────────────────────────────────────────
+function openSettings() {
+  document.getElementById('s-start').value = cfg.startWeight;
+  document.getElementById('s-goal').value = cfg.goalWeight;
+  document.getElementById('s-height').value = cfg.height;
+  document.getElementById('s-patch-name').value = cfg.patchName || '药膏';
+  document.getElementById('s-inject-day').value = cfg.injectDay ?? 1;
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
+function saveSettings() {
+  const s = parseFloat(document.getElementById('s-start').value);
+  const g = parseFloat(document.getElementById('s-goal').value);
+  const h = parseFloat(document.getElementById('s-height').value);
+  if (!s || !g || s <= g || !h) { alert('请检查输入'); return; }
+  cfg.startWeight = s; cfg.goalWeight = g; cfg.height = h;
+  cfg.patchName = document.getElementById('s-patch-name').value || '药膏';
+  cfg.injectDay = parseInt(document.getElementById('s-inject-day').value);
+  save(); closeSettings(); render();
+}
+
+// ─── Logging ──────────────────────────────────────────────────────────────────
+function logWeight() {
+  const w = parseFloat(document.getElementById('weight-input').value);
+  if (!w || w < 60) { alert('请输入正确的体重（单位：斤）'); return; }
+  const dateVal = document.getElementById('date-input').value;
+  if (!dateVal) { alert('请选择日期'); return; }
+  if (!logs[dateVal]) logs[dateVal] = {};
+  logs[dateVal].weight = w;
+  logs[dateVal].note = document.getElementById('note-input').value || '';
+  document.getElementById('weight-input').value = '';
+  document.getElementById('note-input').value = '';
+  // Reset date to today
+  document.getElementById('date-input').value = today();
+  save(); render();
+}
+
+function togglePatch() {
+  const t = document.getElementById('date-input').value || today();
+  if (!logs[t]) logs[t] = {};
+  logs[t].patch = !logs[t].patch;
+  save(); renderTodayChecks(); renderHeatmap(); renderHistory();
+}
+
+function toggleInject() {
+  const wk = weekKey();
+  injects[wk] = !injects[wk];
+  save(); renderTodayChecks(); renderInjections();
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+let weightChart = null;
+
+function render() {
+  renderHeader();
+  renderHero();
+  renderTodayChecks();
+  renderWeightChart();
+  renderHeatmap();
+  renderInjections();
+  renderHistory();
+}
+
+function renderHeader() {
+  const d = new Date();
+  const weekDays = ['周日','周一','周二','周三','周四','周五','周六'];
+  document.getElementById('header-date').textContent =
+    d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + weekDays[d.getDay()];
+}
+
+function renderHero() {
+  const sorted = Object.keys(logs).filter(k => logs[k].weight).sort();
+  const current = sorted.length ? logs[sorted[sorted.length-1]].weight : cfg.startWeight;
+  const lost = +(cfg.startWeight - current).toFixed(1);
+  const remain = +(current - cfg.goalWeight).toFixed(1);
+  const totalToLose = cfg.startWeight - cfg.goalWeight;
+  const pct = Math.max(0, Math.min(100, Math.round(lost / totalToLose * 100)));
+
+  document.getElementById('stat-current').textContent = current;
+  document.getElementById('stat-lost').textContent = lost > 0 ? '-' + lost : lost;
+  if (remain > 0) {
+    document.getElementById('stat-remain').textContent = remain;
+    document.getElementById('remain-label').textContent = '距目标 斤（' + pct + '%）';
+  } else {
+    document.getElementById('stat-remain').textContent = '✅达标';
+    document.getElementById('remain-label').textContent = '距目标';
+  }
+
+  document.getElementById('ring-pct').textContent = pct + '%';
+  const circ = 2 * Math.PI * 46;
+  const offset = circ * (1 - pct / 100);
+  document.getElementById('ring-fill').style.strokeDasharray = circ;
+  document.getElementById('ring-fill').style.strokeDashoffset = offset;
+
+  // Streak
+  let streak = 0;
+  const t = today();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    if (logs[s] && logs[s].weight) streak++;
+    else if (i > 0) break;
+  }
+  const patchStreak = (() => {
+    let ps = 0;
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      if (logs[s] && logs[s].patch) ps++;
+      else if (i > 0) break;
+    }
+    return ps;
+  })();
+  document.getElementById('hero-streak').innerHTML =
+    `🔥 体重连续记录 <strong>${streak}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${patchStreak}</strong> 天`;
+
+  // BMI (convert 斤 to kg: ÷2)
+  if (cfg.height && current) {
+    const h = cfg.height / 100;
+    const weightKg = current / 2;
+    const bmi = +(weightKg / (h * h)).toFixed(1);
+    let bmiLabel = bmi < 18.5 ? '偏轻' : bmi < 24 ? '正常' : bmi < 28 ? '超重' : '肥胖';
+    document.getElementById('bmi-val').textContent = bmi + ' ' + bmiLabel;
+  }
+}
+
+function renderTodayChecks() {
+  const t = document.getElementById('date-input').value || today();
+  const todayLog = logs[t] || {};
+  const wk = weekKey();
+
+  // Patch
+  const patchItem = document.getElementById('patch-item');
+  patchItem.classList.toggle('done', !!todayLog.patch);
+  document.getElementById('patch-status').textContent = todayLog.patch ? '✅ 已贴' : '点击打卡';
+  document.getElementById('patch-name-display').textContent = cfg.patchName || '药膏';
+
+  // Inject
+  const injItem = document.getElementById('inject-item');
+  injItem.classList.toggle('done', !!injects[wk]);
+  document.getElementById('inject-status').textContent = injects[wk] ? '✅ 已打' : '点击打卡';
+
+  // Pre-fill today's weight if logged
+  if (todayLog.weight) {
+    document.getElementById('weight-input').placeholder = todayLog.weight + ' 斤 (已记录)';
+  }
+}
+
+function renderWeightChart() {
+  const sortedDates = Object.keys(logs).filter(k => logs[k].weight).sort();
+  if (sortedDates.length === 0) {
+    if (weightChart) { weightChart.destroy(); weightChart = null; }
+    return;
+  }
+
+  // Show last 30 entries max
+  const recent = sortedDates.slice(-30);
+  const labels = recent.map(d => formatDateCN(d));
+  const weights = recent.map(d => logs[d].weight);
+
+  // 7-day moving average
+  const ma = weights.map((_, i) => {
+    const slice = weights.slice(Math.max(0, i-6), i+1);
+    return +(slice.reduce((a,b) => a+b, 0) / slice.length).toFixed(2);
+  });
+
+  const ctx = document.getElementById('weight-chart').getContext('2d');
+  if (weightChart) weightChart.destroy();
+
+  weightChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '每日体重',
+          data: weights,
+          borderColor: '#007aff',
+          backgroundColor: 'rgba(0,122,255,0.08)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#007aff',
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: '7天均线',
+          data: ma,
+          borderColor: '#ff9500',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.4,
+          fill: false,
+          borderDash: [5,3],
+        },
+        {
+          label: '目标',
+          data: Array(recent.length).fill(cfg.goalWeight),
+          borderColor: '#34c759',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          borderDash: [4,4],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, padding: 10, boxWidth: 16 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + ' 斤'
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0, maxTicksLimit: 6 } },
+        y: {
+          ticks: { font: { size: 11 }, callback: v => v + '斤' },
+          grid: { color: 'rgba(0,0,0,0.04)' }
+        }
+      }
+    }
+  });
+}
+
+function renderHeatmap() {
+  const days = getDaysBefore(28);
+  const t = today();
+  const container = document.getElementById('heatmap');
+  container.innerHTML = '';
+
+  // Day of week headers — figure out what day of week the first day is
+  const firstDate = new Date(days[0] + 'T00:00:00');
+  const firstDow = firstDate.getDay(); // 0=Sun
+  // Fill empty cells before first day
+  for (let i = 0; i < firstDow; i++) {
+    const blank = document.createElement('div');
+    container.appendChild(blank);
+  }
+
+  days.forEach(d => {
+    const cell = document.createElement('div');
+    cell.className = 'heatmap-cell';
+    const log = logs[d] || {};
+    const hasWeight = !!log.weight;
+    const hasPatch = !!log.patch;
+    if (hasWeight && hasPatch) cell.classList.add('has-both');
+    else if (hasWeight) cell.classList.add('has-weight');
+    else if (hasPatch) cell.classList.add('has-patch');
+    if (d === t) cell.classList.add('today-cell');
+
+    const dateObj = new Date(d + 'T00:00:00');
+    cell.title = formatDateCN(d) +
+      (hasWeight ? '\n体重: ' + log.weight + '斤' : '') +
+      (hasPatch ? '\n✅ 已贴药膏' : '');
+    container.appendChild(cell);
+  });
+}
+
+function renderInjections() {
+  // Show last 12 weeks
+  const weeks = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i * 7);
+    const wk = weekKey(d);
+    // Get week date range
+    const start = new Date(d); start.setDate(d.getDate() - d.getDay() + 1);
+    const end = new Date(start); end.setDate(start.getDate() + 6);
+    weeks.push({
+      key: wk,
+      label: (start.getMonth()+1) + '/' + start.getDate() + '—' + (end.getMonth()+1) + '/' + end.getDate()
+    });
+  }
+
+  const container = document.getElementById('inj-weeks');
+  container.innerHTML = '';
+  weeks.forEach(({ key, label }) => {
+    const el = document.createElement('div');
+    el.className = 'inj-week' + (injects[key] ? ' done' : '');
+    el.innerHTML = (injects[key] ? '✅ ' : '') + label;
+    el.onclick = () => { injects[key] = !injects[key]; save(); renderInjections(); renderTodayChecks(); };
+    container.appendChild(el);
+  });
+}
+
+function renderHistory() {
+  const sorted = Object.keys(logs).filter(k => logs[k].weight).sort().reverse().slice(0, 20);
+  const container = document.getElementById('log-list');
+  if (sorted.length === 0) {
+    container.innerHTML = '<div class="empty-state">还没有记录，去打第一个卡吧！</div>';
+    return;
+  }
+  let html = '<table class="log-table"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th></tr></thead><tbody>';
+  sorted.forEach((d, i) => {
+    const log = logs[d];
+    let delta = '—';
+    // Find previous weight entry
+    const allSorted = Object.keys(logs).filter(k => logs[k].weight).sort();
+    const idx = allSorted.indexOf(d);
+    if (idx > 0) {
+      const prev = logs[allSorted[idx-1]].weight;
+      const diff = +(log.weight - prev).toFixed(1);
+      const cls = diff > 0 ? 'delta-pos' : 'delta-neg';
+      delta = `<span class="${cls}">${diff > 0 ? '+' : ''}${diff} 斤</span>`;
+    }
+    const patchBadge = log.patch
+      ? `<span class="badge green">✅ 已贴</span>`
+      : `<span class="badge gray">未贴</span>`;
+    html += `<tr>
+      <td>${formatDateCN(d)}</td>
+      <td style="font-weight:700">${log.weight} 斤</td>
+      <td>${delta}</td>
+      <td>${patchBadge}</td>
+      <td style="color:#6e6e73">${log.note || ''}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+function showApp() {
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  render();
+}
+
+function init() {
+  load();
+  document.getElementById('date-input').value = today();
+  document.getElementById('date-input').max = today();
+  document.getElementById('date-input').addEventListener('change', () => renderTodayChecks());
+  if (cfg.startWeight && cfg.goalWeight) {
+    showApp();
+  }
+  // Close modal on overlay click
+  document.getElementById('settings-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeSettings();
+  });
+}
+
+init();
+</script>
+</body>
+</html>
