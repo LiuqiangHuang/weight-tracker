@@ -628,15 +628,15 @@ function renderHero() {
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = offset;
 
-  // Streak
-  let streak = 0;
-  const t = today();
-  for (let i = 0; i < 365; i++) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-    if (logs[s] && logs[s].weight) streak++;
-    else if (i > 0) break;
+  // Days since first log
+  const allWeightDates = Object.keys(logs).filter(k => logs[k].weight).sort();
+  let daysSinceStart = 0;
+  if (allWeightDates.length > 0) {
+    const firstDate = new Date(allWeightDates[0] + 'T00:00:00');
+    const todayDate = new Date(today() + 'T00:00:00');
+    daysSinceStart = Math.round((todayDate - firstDate) / 86400000) + 1;
   }
+
   const patchStreak = (() => {
     let ps = 0;
     for (let i = 0; i < 365; i++) {
@@ -648,7 +648,7 @@ function renderHero() {
     return ps;
   })();
   document.getElementById('hero-streak').innerHTML =
-    `🔥 体重连续记录 <strong>${streak}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${patchStreak}</strong> 天`;
+    `🗓️ 减肥第 <strong>${daysSinceStart}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${patchStreak}</strong> 天`;
 
   // BMI (convert 斤 to kg: ÷2)
   if (cfg.height && current) {
