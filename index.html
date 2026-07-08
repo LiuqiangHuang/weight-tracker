@@ -14,22 +14,14 @@
     min-height: 100vh;
   }
 
-  /* Setup screen */
   #setup-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 24px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
   }
   .setup-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 48px 40px;
-    max-width: 420px;
-    width: 100%;
-    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
-    text-align: center;
+    background: #fff; border-radius: 24px; padding: 48px 40px;
+    max-width: 420px; width: 100%;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08); text-align: center;
   }
   .setup-card .emoji { font-size: 56px; margin-bottom: 16px; }
   .setup-card h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
@@ -37,98 +29,58 @@
   .setup-row { display: flex; gap: 12px; margin-bottom: 16px; }
   .setup-row .field { flex: 1; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: #6e6e73; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; text-align: left; }
-  .field input {
-    width: 100%;
-    border: 1.5px solid #e0e0e5;
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 17px;
-    font-weight: 500;
-    outline: none;
-    transition: border-color 0.2s;
+  .field input, .field select {
+    width: 100%; border: 1.5px solid #e0e0e5; border-radius: 12px;
+    padding: 12px 16px; font-size: 17px; font-weight: 500; outline: none;
+    transition: border-color 0.2s; background: white;
   }
-  .field input:focus { border-color: #007aff; }
+  .field input:focus, .field select:focus { border-color: #007aff; }
   .btn-primary {
-    width: 100%;
-    background: #007aff;
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.2s, transform 0.1s;
+    width: 100%; background: #007aff; color: #fff; border: none;
+    border-radius: 14px; padding: 16px; font-size: 17px; font-weight: 600;
+    cursor: pointer; margin-top: 8px; transition: background 0.2s, transform 0.1s;
   }
   .btn-primary:hover { background: #0066d6; }
   .btn-primary:active { transform: scale(0.98); }
 
-  /* Main app */
   #app-screen { display: none; }
   header {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(0,0,0,0.06);
-    padding: 16px 24px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 16px 24px; position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
   }
   header h1 { font-size: 20px; font-weight: 700; }
   .header-meta { font-size: 13px; color: #6e6e73; }
-
   .main-content { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
 
-  /* Progress hero */
   .hero {
     background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
-    border-radius: 24px;
-    padding: 28px;
-    color: white;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 28px;
+    border-radius: 24px; padding: 28px; color: white;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 28px;
   }
   .hero-ring { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
   .hero-ring svg { width: 110px; height: 110px; transform: rotate(-90deg); }
   .hero-ring .ring-bg { fill: none; stroke: rgba(255,255,255,0.2); stroke-width: 8; }
   .hero-ring .ring-fill { fill: none; stroke: white; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
-  .hero-ring .center-text {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
+  .hero-ring .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
   .hero-ring .pct { font-size: 22px; font-weight: 800; color: white; line-height: 1; }
   .hero-ring .pct-label { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 500; }
-  .hero-stats { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hero-stats { flex: 1; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
   .hero-stat .val { font-size: 26px; font-weight: 800; line-height: 1; }
   .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
   .hero-streak { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 12px; }
 
-  /* Today card */
   .today-card {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    background: white; border-radius: 20px; padding: 24px;
+    margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   }
   .today-card h2 { font-size: 17px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-  .today-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .today-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .check-item {
-    border: 1.5px solid #e0e0e5;
-    border-radius: 16px;
-    padding: 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
+    border: 1.5px solid #e0e0e5; border-radius: 16px; padding: 16px;
+    text-align: center; cursor: pointer; transition: all 0.2s; user-select: none;
   }
   .check-item:hover { border-color: #007aff; background: #f0f6ff; }
   .check-item.done { background: #e8f5e9; border-color: #34c759; }
@@ -139,62 +91,90 @@
 
   .weight-input-row {
     display: flex; gap: 10px; margin-top: 16px; padding-top: 16px;
-    border-top: 1px solid #f0f0f5;
-    align-items: flex-end;
+    border-top: 1px solid #f0f0f5; align-items: flex-end; flex-wrap: wrap;
   }
-  .weight-field { flex: 1; }
+  .weight-field { flex: 1; min-width: 80px; }
   .weight-field label { display: block; font-size: 12px; font-weight: 600; color: #6e6e73; margin-bottom: 6px; }
   .weight-field input {
-    width: 100%;
-    border: 1.5px solid #e0e0e5;
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-size: 18px;
-    font-weight: 600;
-    outline: none;
+    width: 100%; border: 1.5px solid #e0e0e5; border-radius: 12px;
+    padding: 11px 14px; font-size: 18px; font-weight: 600; outline: none;
     transition: border-color 0.2s;
   }
   .weight-field input:focus { border-color: #007aff; }
   .note-field { flex: 2; }
   .btn-log {
-    background: #007aff; color: white; border: none;
-    border-radius: 12px; padding: 11px 20px;
-    font-size: 15px; font-weight: 600; cursor: pointer;
-    white-space: nowrap; transition: background 0.2s;
-    align-self: flex-end; height: 44px;
+    background: #007aff; color: white; border: none; border-radius: 12px;
+    padding: 11px 20px; font-size: 15px; font-weight: 600; cursor: pointer;
+    white-space: nowrap; transition: background 0.2s; align-self: flex-end; height: 44px;
   }
   .btn-log:hover { background: #0066d6; }
 
-  /* Charts */
-  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
-  .chart-card {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  /* BMI Bar */
+  .bmi-card {
+    background: white; border-radius: 20px; padding: 24px;
+    margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   }
+  .bmi-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .bmi-bar-wrap { position: relative; margin-bottom: 28px; }
+  .bmi-bar {
+    height: 14px; border-radius: 7px; width: 100%;
+    background: linear-gradient(to right,
+      #60a5fa 0%, #60a5fa 18%,
+      #34c759 18%, #34c759 54%,
+      #ff9500 54%, #ff9500 76%,
+      #ff3b30 76%, #ff3b30 100%);
+    position: relative;
+  }
+  .bmi-pointer {
+    position: absolute; top: -6px;
+    width: 2px; height: 26px; background: #1d1d1f;
+    border-radius: 2px; transform: translateX(-50%);
+    transition: left 0.8s ease;
+  }
+  .bmi-pointer::after {
+    content: '';
+    position: absolute; top: -6px; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 10px;
+    background: #1d1d1f; border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .bmi-value-label {
+    position: absolute; top: -28px;
+    transform: translateX(-50%);
+    font-size: 13px; font-weight: 700; color: #1d1d1f;
+    white-space: nowrap;
+    transition: left 0.8s ease;
+  }
+  .bmi-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+  .bmi-label-item { font-size: 11px; color: #6e6e73; text-align: center; }
+  .bmi-label-item span { display: block; font-weight: 600; }
+  .bmi-sections {
+    display: grid; grid-template-columns: 18fr 36fr 22fr 24fr;
+    gap: 6px; margin-top: 12px;
+  }
+  .bmi-section {
+    border-radius: 8px; padding: 8px 10px; text-align: center;
+  }
+  .bmi-section .s-label { font-size: 11px; font-weight: 700; }
+  .bmi-section .s-range { font-size: 10px; opacity: 0.8; margin-top: 2px; }
+  .bmi-section.underweight { background: #dbeafe; color: #1d4ed8; }
+  .bmi-section.normal { background: #dcfce7; color: #15803d; }
+  .bmi-section.overweight { background: #ffedd5; color: #c2410c; }
+  .bmi-section.obese { background: #fee2e2; color: #b91c1c; }
+  .bmi-section.active-section { outline: 2px solid currentColor; outline-offset: 2px; }
+
+  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .chart-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   .chart-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #1d1d1f; }
   .chart-wrap { position: relative; }
 
-  /* Heatmap */
-  .heatmap-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-top: 8px;
-  }
-  .heatmap-day-label { font-size: 10px; color: #6e6e73; text-align: center; font-weight: 600; }
+  .heatmap-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-top: 8px; }
   .heatmap-cell {
-    aspect-ratio: 1;
-    border-radius: 5px;
-    background: #f0f0f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    cursor: default;
-    transition: transform 0.1s;
-    position: relative;
+    aspect-ratio: 1; border-radius: 5px; background: #f0f0f5;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; cursor: default; transition: transform 0.1s; position: relative;
   }
   .heatmap-cell:hover { transform: scale(1.2); z-index: 1; }
   .heatmap-cell.has-weight { background: #bfdbfe; }
@@ -205,14 +185,7 @@
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6e6e73; }
   .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
-  /* Log history */
-  .log-card {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    margin-bottom: 20px;
-  }
+  .log-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .log-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
   .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   .log-table th { text-align: left; color: #6e6e73; font-weight: 600; font-size: 12px; padding: 0 0 10px; border-bottom: 1px solid #f0f0f5; }
@@ -221,68 +194,68 @@
   .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
   .badge.green { background: #e8f5e9; color: #1a7f37; }
   .badge.gray { background: #f0f0f5; color: #6e6e73; }
-  .badge.blue { background: #dbeafe; color: #1d4ed8; }
   .delta-pos { color: #ff3b30; font-weight: 600; }
   .delta-neg { color: #34c759; font-weight: 600; }
+  /* Weekly summary */
+  .week-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
+  .week-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .week-nav-btn { background: #f0f0f5; border: none; border-radius: 10px; padding: 6px 14px; font-size: 15px; cursor: pointer; font-weight: 600; color: #1d1d1f; }
+  .week-nav-btn:hover { background: #e0e0e5; }
+  .week-nav-label { flex: 1; text-align: center; font-size: 14px; font-weight: 600; color: #6e6e73; }
+  .week-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .week-stat { background: #f9f9fb; border-radius: 14px; padding: 14px; text-align: center; }
+  .week-stat .ws-val { font-size: 22px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .week-stat .ws-label { font-size: 11px; color: #6e6e73; font-weight: 500; }
+  .week-stat.highlight-green .ws-val { color: #34c759; }
+  .week-stat.highlight-red .ws-val { color: #ff3b30; }
+  .week-stat.highlight-blue .ws-val { color: #007aff; }
+  .week-note { margin-top: 14px; padding: 12px 16px; background: #f0f6ff; border-radius: 12px; font-size: 13px; color: #007aff; font-weight: 500; line-height: 1.5; }
 
-  /* Settings */
-  .settings-btn {
-    background: none; border: none; cursor: pointer; color: #6e6e73;
-    font-size: 20px; padding: 4px 8px; border-radius: 8px;
-    transition: background 0.2s;
-  }
+  .log-action-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 3px 7px; border-radius: 6px; font-weight: 600; transition: background 0.15s; }
+  .log-action-btn.edit { color: #007aff; }
+  .log-action-btn.edit:hover { background: #e8f0ff; }
+  .log-action-btn.del { color: #ff3b30; }
+  .log-action-btn.del:hover { background: #fff0ee; }
+  .log-edit-row td { padding: 8px 0; }
+  .log-edit-row input { border: 1.5px solid #007aff; border-radius: 8px; padding: 5px 10px; font-size: 14px; outline: none; }
+  .log-edit-row .save-btn { background: #007aff; color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-right: 4px; }
+  .log-edit-row .cancel-btn { background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 8px; padding: 5px 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  .settings-btn { background: none; border: none; cursor: pointer; color: #6e6e73; font-size: 20px; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
   .settings-btn:hover { background: #f0f0f5; }
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4); z-index: 200;
-    align-items: center; justify-content: center; padding: 24px;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: white; border-radius: 20px; padding: 32px;
-    max-width: 380px; width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
+  .modal { background: white; border-radius: 20px; padding: 32px; max-width: 380px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
   .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
   .modal .field { margin-bottom: 14px; }
   .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-cancel {
-    flex: 1; background: #f0f0f5; color: #1d1d1f; border: none;
-    border-radius: 12px; padding: 13px; font-size: 15px;
-    font-weight: 600; cursor: pointer;
-  }
+  .btn-cancel { flex: 1; background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 12px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
   .modal-btns .btn-primary { flex: 1; margin: 0; }
 
-  /* Injection card */
-  .inj-card {
-    background: white; border-radius: 20px; padding: 20px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    margin-bottom: 20px;
-  }
+  .inj-card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .inj-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
   .inj-weeks { display: flex; gap: 8px; flex-wrap: wrap; }
-  .inj-week {
-    border: 1.5px solid #e0e0e5; border-radius: 12px;
-    padding: 8px 14px; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-  }
+  .inj-week { border: 1.5px solid #e0e0e5; border-radius: 12px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
   .inj-week:hover { border-color: #5856d6; background: #f5f3ff; }
   .inj-week.done { background: #ede9fe; border-color: #5856d6; color: #5856d6; }
 
   .empty-state { text-align: center; color: #6e6e73; padding: 24px; font-size: 14px; }
 
+
   @media (max-width: 600px) {
     .chart-grid { grid-template-columns: 1fr; }
     .hero { flex-direction: column; text-align: center; }
-    .hero-stats { grid-template-columns: repeat(3, 1fr); }
-    .today-grid { grid-template-columns: 1fr 1fr; }
-    .weight-input-row { flex-wrap: wrap; }
+    .hero-stats { grid-template-columns: repeat(3,1fr); }
+    .today-grid { grid-template-columns: 1fr 1fr; } /* already 2-col, stays the same */
+    .bmi-sections { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .setup-card { padding: 32px 20px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Setup Screen -->
+<!-- Setup -->
 <div id="setup-screen">
   <div class="setup-card">
     <div class="emoji">🏃‍♀️</div>
@@ -299,7 +272,7 @@
       </div>
     </div>
     <div class="field">
-      <label>你的身高 (cm) — 用于计算 BMI</label>
+      <label>身高 (cm) — 用于计算 BMI</label>
       <input type="number" id="setup-height" placeholder="165" step="1" min="100" max="220">
     </div>
     <div class="field" style="margin-top:8px">
@@ -307,14 +280,11 @@
       <input type="text" id="setup-patch-name" placeholder="例如：左旋肉碱贴片">
     </div>
     <div class="field">
-      <label>每周打针日（默认周一）</label>
-      <select id="setup-inject-day" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:12px 16px;font-size:15px;outline:none;">
-        <option value="1">周一</option>
-        <option value="2">周二</option>
-        <option value="3">周三</option>
-        <option value="4">周四</option>
-        <option value="5">周五</option>
-        <option value="6">周六</option>
+      <label>每周打针日</label>
+      <select id="setup-inject-day">
+        <option value="1">周一</option><option value="2">周二</option>
+        <option value="3">周三</option><option value="4">周四</option>
+        <option value="5">周五</option><option value="6">周六</option>
         <option value="0" selected>周日</option>
       </select>
     </div>
@@ -322,32 +292,31 @@
   </div>
 </div>
 
-<!-- Main App -->
+<!-- App -->
 <div id="app-screen">
   <header>
     <div>
       <h1>减肥打卡 💪</h1>
       <div class="header-meta" id="header-date"></div>
     </div>
-    <button class="settings-btn" onclick="openSettings()" title="设置">⚙️</button>
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
   </header>
 
   <div class="main-content">
 
-    <!-- Hero Progress -->
-    <div class="hero" id="hero-section">
+    <!-- Hero -->
+    <div class="hero">
       <div class="hero-ring">
         <svg viewBox="0 0 110 110">
           <circle class="ring-bg" cx="55" cy="55" r="46"/>
-          <circle class="ring-fill" id="ring-fill" cx="55" cy="55" r="46"
-            stroke-dasharray="289" stroke-dashoffset="289"/>
+          <circle class="ring-fill" id="ring-fill" cx="55" cy="55" r="46" stroke-dasharray="289" stroke-dashoffset="289"/>
         </svg>
         <div class="center-text">
           <div class="pct" id="ring-pct">0%</div>
           <div class="pct-label">已完成</div>
         </div>
       </div>
-      <div>
+      <div style="flex:1">
         <div class="hero-stats">
           <div class="hero-stat">
             <div class="val" id="stat-current">—</div>
@@ -366,7 +335,7 @@
       </div>
     </div>
 
-    <!-- Today Check-in -->
+    <!-- Today -->
     <div class="today-card">
       <h2>📅 今日打卡</h2>
       <div class="today-grid">
@@ -380,16 +349,21 @@
           <div class="name">本周打针</div>
           <div class="status" id="inject-status">点击打卡</div>
         </div>
-        <div class="check-item" id="bmi-display" style="cursor:default;">
+        <div class="check-item" style="cursor:default;">
           <div class="icon">📊</div>
           <div class="name">当前 BMI</div>
           <div class="status" id="bmi-val" style="font-size:16px;font-weight:700;color:#1d1d1f;">—</div>
         </div>
+        <div class="check-item" style="cursor:default;">
+          <div class="icon">⚖️</div>
+          <div class="name">今日体重</div>
+          <div class="status" id="today-weight-display" style="font-size:16px;font-weight:700;color:#1d1d1f;">未记录</div>
+        </div>
       </div>
       <div class="weight-input-row">
-        <div class="weight-field" style="flex:0.8">
+        <div class="weight-field" style="flex:0.8;min-width:110px">
           <label>日期</label>
-          <input type="date" id="date-input" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:15px;font-weight:600;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#007aff'" onblur="this.style.borderColor='#e0e0e5'">
+          <input type="date" id="date-input" style="font-size:15px;font-weight:600;" onfocus="this.style.borderColor='#007aff'" onblur="this.style.borderColor='#e0e0e5'">
         </div>
         <div class="weight-field">
           <label>空腹体重 (斤)</label>
@@ -400,6 +374,35 @@
           <input type="text" id="note-input" placeholder="例如：昨晚外食了">
         </div>
         <button class="btn-log" onclick="logWeight()">记录</button>
+      </div>
+    </div>
+
+    <!-- BMI Bar -->
+    <div class="bmi-card">
+      <h2>📏 BMI 指数</h2>
+      <div class="bmi-bar-wrap">
+        <div class="bmi-value-label" id="bmi-value-label" style="left:0%;display:none"></div>
+        <div class="bmi-bar">
+          <div class="bmi-pointer" id="bmi-pointer" style="left:0%;display:none"></div>
+        </div>
+      </div>
+      <div class="bmi-sections">
+        <div class="bmi-section underweight" id="bmi-sec-under">
+          <div class="s-label">偏轻</div>
+          <div class="s-range">&lt; 18.5</div>
+        </div>
+        <div class="bmi-section normal" id="bmi-sec-normal">
+          <div class="s-label">正常</div>
+          <div class="s-range">18.5 – 24</div>
+        </div>
+        <div class="bmi-section overweight" id="bmi-sec-over">
+          <div class="s-label">超重</div>
+          <div class="s-range">24 – 28</div>
+        </div>
+        <div class="bmi-section obese" id="bmi-sec-obese">
+          <div class="s-label">肥胖</div>
+          <div class="s-range">&gt; 28</div>
+        </div>
       </div>
     </div>
 
@@ -422,13 +425,25 @@
       </div>
     </div>
 
-    <!-- Injection tracker -->
+    <!-- Weekly Summary -->
+    <div class="week-card">
+      <h2>📆 每周小结</h2>
+      <div class="week-nav">
+        <button class="week-nav-btn" onclick="weekOffset++; renderWeeklySummary()">◀</button>
+        <div class="week-nav-label" id="week-nav-label"></div>
+        <button class="week-nav-btn" onclick="if(weekOffset>0){weekOffset--; renderWeeklySummary()}">▶</button>
+      </div>
+      <div class="week-stats" id="week-stats"></div>
+      <div class="week-note" id="week-note" style="display:none"></div>
+    </div>
+
+    <!-- Injections -->
     <div class="inj-card">
       <h2>💉 打针记录（按周）</h2>
       <div class="inj-weeks" id="inj-weeks"></div>
     </div>
 
-    <!-- Log history -->
+    <!-- History -->
     <div class="log-card">
       <h2>📋 历史记录</h2>
       <div id="log-list"><div class="empty-state">还没有记录，去打第一个卡吧！</div></div>
@@ -441,27 +456,16 @@
 <div class="modal-overlay" id="settings-modal">
   <div class="modal">
     <h2>⚙️ 设置</h2>
-    <div class="field">
-      <label>初始体重 (斤)</label>
-      <input type="number" id="s-start" step="0.5">
-    </div>
-    <div class="field">
-      <label>目标体重 (斤)</label>
-      <input type="number" id="s-goal" step="0.5">
-    </div>
-    <div class="field">
-      <label>身高 (cm)</label>
-      <input type="number" id="s-height" step="1">
-    </div>
-    <div class="field">
-      <label>药膏名称</label>
-      <input type="text" id="s-patch-name">
-    </div>
+    <div class="field"><label>初始体重 (斤)</label><input type="number" id="s-start" step="0.5"></div>
+    <div class="field"><label>目标体重 (斤)</label><input type="number" id="s-goal" step="0.5"></div>
+    <div class="field"><label>身高 (cm)</label><input type="number" id="s-height" step="1"></div>
+    <div class="field"><label>药膏名称</label><input type="text" id="s-patch-name"></div>
     <div class="field">
       <label>每周打针日</label>
-      <select id="s-inject-day" style="width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:12px 16px;font-size:15px;outline:none;">
-        <option value="1">周一</option><option value="2">周二</option><option value="3">周三</option>
-        <option value="4">周四</option><option value="5">周五</option><option value="6">周六</option>
+      <select id="s-inject-day">
+        <option value="1">周一</option><option value="2">周二</option>
+        <option value="3">周三</option><option value="4">周四</option>
+        <option value="5">周五</option><option value="6">周六</option>
         <option value="0">周日</option>
       </select>
     </div>
@@ -473,10 +477,7 @@
 </div>
 
 <script>
-// ─── Data layer ───────────────────────────────────────────────────────────────
-let cfg = {};   // { startWeight, goalWeight, height, patchName, injectDay }
-let logs = {};  // { "2026-06-03": { weight, patch, note } }
-let injects = {}; // { "2026-W22": true }
+let cfg = {}, logs = {}, injects = {};
 
 function save() {
   localStorage.setItem('wl_cfg', JSON.stringify(cfg));
@@ -489,91 +490,110 @@ function load() {
   try { injects = JSON.parse(localStorage.getItem('wl_injects')) || {}; } catch(e){ injects={}; }
 }
 
-// ─── Date helpers ─────────────────────────────────────────────────────────────
 function today() {
   const d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 function weekKey(d) {
-  // ISO week
   const date = d ? new Date(d) : new Date();
-  const jan4 = new Date(date.getFullYear(), 0, 4);
-  const startOfWeek = new Date(jan4);
-  startOfWeek.setDate(jan4.getDate() - (jan4.getDay()||7) + 1);
-  const weekNo = Math.ceil(((date - startOfWeek) / 86400000 + 1) / 7);
-  return date.getFullYear() + '-W' + String(weekNo).padStart(2,'0');
+  const jan4 = new Date(date.getFullYear(),0,4);
+  const sow = new Date(jan4); sow.setDate(jan4.getDate()-(jan4.getDay()||7)+1);
+  const wn = Math.ceil(((date-sow)/86400000+1)/7);
+  return date.getFullYear()+'-W'+String(wn).padStart(2,'0');
 }
-function formatDateCN(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00');
-  return (d.getMonth()+1) + '月' + d.getDate() + '日';
+function formatDateCN(s) {
+  const d = new Date(s+'T00:00:00');
+  return (d.getMonth()+1)+'月'+d.getDate()+'日';
 }
 function getDaysBefore(n) {
-  const days = [];
-  for (let i = n-1; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-    days.push(s);
+  const days=[];
+  for(let i=n-1;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    days.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
   }
   return days;
 }
-const DAY_NAMES = ['日','一','二','三','四','五','六'];
 
-// ─── Setup ────────────────────────────────────────────────────────────────────
+// BMI helpers
+// BMI range: display 14–35, pointer clamped
+const BMI_MIN = 14, BMI_MAX = 35;
+// section boundaries as % of bar
+// underweight: <18.5 → 0–18%  normal: 18.5–24 → 18–54%  overweight: 24–28 → 54–76%  obese: 28+ → 76–100%
+function bmiToPercent(bmi) {
+  return Math.max(0, Math.min(100, (bmi - BMI_MIN) / (BMI_MAX - BMI_MIN) * 100));
+}
+function renderBMIBar(bmi) {
+  const pointer = document.getElementById('bmi-pointer');
+  const label = document.getElementById('bmi-value-label');
+  if (!bmi) { pointer.style.display='none'; label.style.display='none'; return; }
+  const pct = bmiToPercent(bmi);
+  pointer.style.display = 'block';
+  pointer.style.left = pct + '%';
+  label.style.display = 'block';
+  label.style.left = pct + '%';
+  label.textContent = bmi;
+
+  // Highlight active section
+  ['bmi-sec-under','bmi-sec-normal','bmi-sec-over','bmi-sec-obese'].forEach(id => {
+    document.getElementById(id).classList.remove('active-section');
+  });
+  if (bmi < 18.5) document.getElementById('bmi-sec-under').classList.add('active-section');
+  else if (bmi < 24) document.getElementById('bmi-sec-normal').classList.add('active-section');
+  else if (bmi < 28) document.getElementById('bmi-sec-over').classList.add('active-section');
+  else document.getElementById('bmi-sec-obese').classList.add('active-section');
+}
+
 function doSetup() {
   const s = parseFloat(document.getElementById('setup-start').value);
   const g = parseFloat(document.getElementById('setup-goal').value);
   const h = parseFloat(document.getElementById('setup-height').value);
-  if (!s || !g || s <= g || s < 60 || g < 60) { alert('请填写正确的初始体重和目标体重（单位：斤，目标体重应小于初始体重）'); return; }
-  if (!h || h < 100) { alert('请填写正确的身高'); return; }
+  if (!s||!g||s<=g||s<60||g<60) { alert('请填写正确的初始体重和目标体重（单位：斤，目标应小于初始）'); return; }
+  if (!h||h<100) { alert('请填写正确的身高'); return; }
   cfg = {
-    startWeight: s, goalWeight: g, height: h,
-    patchName: document.getElementById('setup-patch-name').value || '药膏',
+    startWeight:s, goalWeight:g, height:h,
+    patchName: document.getElementById('setup-patch-name').value||'药膏',
     injectDay: parseInt(document.getElementById('setup-inject-day').value)
   };
-  save();
-  showApp();
+  save(); showApp();
 }
 
-// ─── Settings modal ───────────────────────────────────────────────────────────
 function openSettings() {
   document.getElementById('s-start').value = cfg.startWeight;
   document.getElementById('s-goal').value = cfg.goalWeight;
   document.getElementById('s-height').value = cfg.height;
-  document.getElementById('s-patch-name').value = cfg.patchName || '药膏';
-  document.getElementById('s-inject-day').value = cfg.injectDay ?? 1;
+  document.getElementById('s-patch-name').value = cfg.patchName||'药膏';
+  document.getElementById('s-inject-day').value = cfg.injectDay??0;
   document.getElementById('settings-modal').classList.add('open');
 }
 function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
 function saveSettings() {
-  const s = parseFloat(document.getElementById('s-start').value);
-  const g = parseFloat(document.getElementById('s-goal').value);
-  const h = parseFloat(document.getElementById('s-height').value);
-  if (!s || !g || s <= g || !h) { alert('请检查输入'); return; }
-  cfg.startWeight = s; cfg.goalWeight = g; cfg.height = h;
-  cfg.patchName = document.getElementById('s-patch-name').value || '药膏';
-  cfg.injectDay = parseInt(document.getElementById('s-inject-day').value);
+  const s=parseFloat(document.getElementById('s-start').value);
+  const g=parseFloat(document.getElementById('s-goal').value);
+  const h=parseFloat(document.getElementById('s-height').value);
+  if (!s||!g||s<=g||!h) { alert('请检查输入'); return; }
+  cfg.startWeight=s; cfg.goalWeight=g; cfg.height=h;
+  cfg.patchName=document.getElementById('s-patch-name').value||'药膏';
+  cfg.injectDay=parseInt(document.getElementById('s-inject-day').value);
   save(); closeSettings(); render();
 }
 
-// ─── Logging ──────────────────────────────────────────────────────────────────
 function logWeight() {
   const w = parseFloat(document.getElementById('weight-input').value);
-  if (!w || w < 60) { alert('请输入正确的体重（单位：斤）'); return; }
+  if (!w||w<60) { alert('请输入正确的体重（单位：斤）'); return; }
   const dateVal = document.getElementById('date-input').value;
   if (!dateVal) { alert('请选择日期'); return; }
-  if (!logs[dateVal]) logs[dateVal] = {};
+  if (!logs[dateVal]) logs[dateVal]={};
   logs[dateVal].weight = w;
-  logs[dateVal].note = document.getElementById('note-input').value || '';
-  document.getElementById('weight-input').value = '';
-  document.getElementById('note-input').value = '';
-  // Reset date to today
+  logs[dateVal].note = document.getElementById('note-input').value||'';
+  document.getElementById('weight-input').value='';
+  document.getElementById('note-input').value='';
   document.getElementById('date-input').value = today();
   save(); render();
 }
 
 function togglePatch() {
-  const t = document.getElementById('date-input').value || today();
-  if (!logs[t]) logs[t] = {};
+  const t = document.getElementById('date-input').value||today();
+  if (!logs[t]) logs[t]={};
   logs[t].patch = !logs[t].patch;
   save(); renderTodayChecks(); renderHeatmap(); renderHistory();
 }
@@ -584,180 +604,134 @@ function toggleInject() {
   save(); renderTodayChecks(); renderInjections();
 }
 
-// ─── Render ───────────────────────────────────────────────────────────────────
 let weightChart = null;
 
 function render() {
-  renderHeader();
-  renderHero();
-  renderTodayChecks();
-  renderWeightChart();
-  renderHeatmap();
-  renderInjections();
-  renderHistory();
+  renderHeader(); renderHero(); renderTodayChecks();
+  renderWeightChart(); renderHeatmap(); renderWeeklySummary(); renderInjections(); renderHistory();
 }
 
 function renderHeader() {
   const d = new Date();
-  const weekDays = ['周日','周一','周二','周三','周四','周五','周六'];
+  const wd = ['周日','周一','周二','周三','周四','周五','周六'];
   document.getElementById('header-date').textContent =
-    d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + weekDays[d.getDay()];
+    d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+wd[d.getDay()];
 }
 
 function renderHero() {
-  const sorted = Object.keys(logs).filter(k => logs[k].weight).sort();
+  const sorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
   const current = sorted.length ? logs[sorted[sorted.length-1]].weight : cfg.startWeight;
-  const lost = +(cfg.startWeight - current).toFixed(1);
-  const remain = +(current - cfg.goalWeight).toFixed(1);
-  const totalToLose = cfg.startWeight - cfg.goalWeight;
-  const pct = Math.max(0, Math.min(100, Math.round(lost / totalToLose * 100)));
+  const lost = +(cfg.startWeight-current).toFixed(1);
+  const remain = +(current-cfg.goalWeight).toFixed(1);
+  const totalToLose = cfg.startWeight-cfg.goalWeight;
+  const pct = Math.max(0,Math.min(100,Math.round(lost/totalToLose*100)));
 
   document.getElementById('stat-current').textContent = current;
-  document.getElementById('stat-lost').textContent = lost > 0 ? '-' + lost : lost;
-  if (remain > 0) {
+  document.getElementById('stat-lost').textContent = lost>0?'-'+lost:lost;
+  if (remain>0) {
     document.getElementById('stat-remain').textContent = remain;
-    document.getElementById('remain-label').textContent = '距目标 斤（' + pct + '%）';
+    document.getElementById('remain-label').textContent = '距目标 斤（'+pct+'%）';
   } else {
     document.getElementById('stat-remain').textContent = '✅达标';
     document.getElementById('remain-label').textContent = '距目标';
   }
 
-  document.getElementById('ring-pct').textContent = pct + '%';
-  const circ = 2 * Math.PI * 46;
-  const offset = circ * (1 - pct / 100);
+  document.getElementById('ring-pct').textContent = pct+'%';
+  const circ = 2*Math.PI*46;
   document.getElementById('ring-fill').style.strokeDasharray = circ;
-  document.getElementById('ring-fill').style.strokeDashoffset = offset;
+  document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
 
   // Days since first log
-  const allWeightDates = Object.keys(logs).filter(k => logs[k].weight).sort();
-  let daysSinceStart = 0;
-  if (allWeightDates.length > 0) {
-    const firstDate = new Date(allWeightDates[0] + 'T00:00:00');
-    const todayDate = new Date(today() + 'T00:00:00');
-    daysSinceStart = Math.round((todayDate - firstDate) / 86400000) + 1;
+  const allDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
+  let daysSince = 0;
+  if (allDates.length>0) {
+    const first = new Date(allDates[0]+'T00:00:00');
+    const now = new Date(today()+'T00:00:00');
+    daysSince = Math.round((now-first)/86400000)+1;
   }
 
-  const patchStreak = (() => {
-    let ps = 0;
-    for (let i = 0; i < 365; i++) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      const s = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-      if (logs[s] && logs[s].patch) ps++;
-      else if (i > 0) break;
-    }
-    return ps;
-  })();
+  // Patch streak
+  let ps=0;
+  for(let i=0;i<365;i++){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(logs[s]&&logs[s].patch) ps++;
+    else if(i>0) break;
+  }
   document.getElementById('hero-streak').innerHTML =
-    `🗓️ 减肥第 <strong>${daysSinceStart}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${patchStreak}</strong> 天`;
+    `🗓️ 减肥第 <strong>${daysSince}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${ps}</strong> 天`;
 
-  // BMI (convert 斤 to kg: ÷2)
+  // BMI
+  let bmiVal = null;
   if (cfg.height && current) {
-    const h = cfg.height / 100;
-    const weightKg = current / 2;
-    const bmi = +(weightKg / (h * h)).toFixed(1);
-    let bmiLabel = bmi < 18.5 ? '偏轻' : bmi < 24 ? '正常' : bmi < 28 ? '超重' : '肥胖';
-    document.getElementById('bmi-val').textContent = bmi + ' ' + bmiLabel;
+    const h = cfg.height/100;
+    bmiVal = +(current/2/(h*h)).toFixed(1);
+    const bmiLabel = bmiVal<18.5?'偏轻':bmiVal<24?'正常':bmiVal<28?'超重':'肥胖';
+    document.getElementById('bmi-val').textContent = bmiVal+' '+bmiLabel;
   }
+  renderBMIBar(bmiVal);
 }
 
 function renderTodayChecks() {
-  const t = document.getElementById('date-input').value || today();
-  const todayLog = logs[t] || {};
+  const t = document.getElementById('date-input').value||today();
+  const tl = logs[t]||{};
   const wk = weekKey();
 
-  // Patch
-  const patchItem = document.getElementById('patch-item');
-  patchItem.classList.toggle('done', !!todayLog.patch);
-  document.getElementById('patch-status').textContent = todayLog.patch ? '✅ 已贴' : '点击打卡';
-  document.getElementById('patch-name-display').textContent = cfg.patchName || '药膏';
+  document.getElementById('patch-item').classList.toggle('done',!!tl.patch);
+  document.getElementById('patch-status').textContent = tl.patch?'✅ 已贴':'点击打卡';
+  document.getElementById('patch-name-display').textContent = cfg.patchName||'药膏';
 
-  // Inject
-  const injItem = document.getElementById('inject-item');
-  injItem.classList.toggle('done', !!injects[wk]);
-  document.getElementById('inject-status').textContent = injects[wk] ? '✅ 已打' : '点击打卡';
+  document.getElementById('inject-item').classList.toggle('done',!!injects[wk]);
+  document.getElementById('inject-status').textContent = injects[wk]?'✅ 已打':'点击打卡';
 
-  // Pre-fill today's weight if logged
-  if (todayLog.weight) {
-    document.getElementById('weight-input').placeholder = todayLog.weight + ' 斤 (已记录)';
+  const todayWeightEl = document.getElementById('today-weight-display');
+  if (tl.weight) {
+    todayWeightEl.textContent = tl.weight + ' 斤';
+    todayWeightEl.style.color = '#34c759';
+    document.getElementById('weight-input').placeholder = tl.weight+' 斤 (已记录)';
+  } else {
+    todayWeightEl.textContent = '未记录';
+    todayWeightEl.style.color = '#c7c7cc';
+    document.getElementById('weight-input').placeholder = '0.0';
   }
 }
 
 function renderWeightChart() {
-  const sortedDates = Object.keys(logs).filter(k => logs[k].weight).sort();
-  if (sortedDates.length === 0) {
-    if (weightChart) { weightChart.destroy(); weightChart = null; }
+  const sortedDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
+  if (!sortedDates.length) {
+    if (weightChart) { weightChart.destroy(); weightChart=null; }
     return;
   }
-
-  // Show last 30 entries max
   const recent = sortedDates.slice(-30);
-  const labels = recent.map(d => formatDateCN(d));
-  const weights = recent.map(d => logs[d].weight);
-
-  // 7-day moving average
-  const ma = weights.map((_, i) => {
-    const slice = weights.slice(Math.max(0, i-6), i+1);
-    return +(slice.reduce((a,b) => a+b, 0) / slice.length).toFixed(2);
+  const labels = recent.map(d=>formatDateCN(d));
+  const weights = recent.map(d=>logs[d].weight);
+  const ma = weights.map((_,i)=>{
+    const sl=weights.slice(Math.max(0,i-6),i+1);
+    return +(sl.reduce((a,b)=>a+b,0)/sl.length).toFixed(2);
   });
 
   const ctx = document.getElementById('weight-chart').getContext('2d');
   if (weightChart) weightChart.destroy();
-
-  weightChart = new Chart(ctx, {
-    type: 'line',
-    data: {
+  weightChart = new Chart(ctx,{
+    type:'line',
+    data:{
       labels,
-      datasets: [
-        {
-          label: '每日体重',
-          data: weights,
-          borderColor: '#007aff',
-          backgroundColor: 'rgba(0,122,255,0.08)',
-          borderWidth: 2,
-          pointRadius: 4,
-          pointBackgroundColor: '#007aff',
-          tension: 0.3,
-          fill: true,
-        },
-        {
-          label: '7天均线',
-          data: ma,
-          borderColor: '#ff9500',
-          borderWidth: 2,
-          pointRadius: 0,
-          tension: 0.4,
-          fill: false,
-          borderDash: [5,3],
-        },
-        {
-          label: '目标',
-          data: Array(recent.length).fill(cfg.goalWeight),
-          borderColor: '#34c759',
-          borderWidth: 1.5,
-          pointRadius: 0,
-          fill: false,
-          borderDash: [4,4],
-        }
+      datasets:[
+        { label:'每日体重', data:weights, borderColor:'#007aff', backgroundColor:'rgba(0,122,255,0.08)', borderWidth:2, pointRadius:4, pointBackgroundColor:'#007aff', tension:0.3, fill:true },
+        { label:'7天均线', data:ma, borderColor:'#ff9500', borderWidth:2, pointRadius:0, tension:0.4, fill:false, borderDash:[5,3] },
+        { label:'目标', data:Array(recent.length).fill(cfg.goalWeight), borderColor:'#34c759', borderWidth:1.5, pointRadius:0, fill:false, borderDash:[4,4] }
       ]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, padding: 10, boxWidth: 16 } },
-        tooltip: {
-          callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + ' 斤'
-          }
-        }
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{font:{size:11},padding:10,boxWidth:16}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+' 斤'}}
       },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0, maxTicksLimit: 6 } },
-        y: {
-          ticks: { font: { size: 11 }, callback: v => v + '斤' },
-          grid: { color: 'rgba(0,0,0,0.04)' }
-        }
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},maxRotation:0,maxTicksLimit:6}},
+        y:{ticks:{font:{size:11},callback:v=>v+'斤'},grid:{color:'rgba(0,0,0,0.04)'}}
       }
     }
   });
@@ -767,101 +741,196 @@ function renderHeatmap() {
   const days = getDaysBefore(28);
   const t = today();
   const container = document.getElementById('heatmap');
-  container.innerHTML = '';
-
-  // Day of week headers — figure out what day of week the first day is
-  const firstDate = new Date(days[0] + 'T00:00:00');
-  const firstDow = firstDate.getDay(); // 0=Sun
-  // Fill empty cells before first day
-  for (let i = 0; i < firstDow; i++) {
-    const blank = document.createElement('div');
-    container.appendChild(blank);
-  }
-
-  days.forEach(d => {
-    const cell = document.createElement('div');
-    cell.className = 'heatmap-cell';
-    const log = logs[d] || {};
-    const hasWeight = !!log.weight;
-    const hasPatch = !!log.patch;
-    if (hasWeight && hasPatch) cell.classList.add('has-both');
-    else if (hasWeight) cell.classList.add('has-weight');
-    else if (hasPatch) cell.classList.add('has-patch');
-    if (d === t) cell.classList.add('today-cell');
-
-    const dateObj = new Date(d + 'T00:00:00');
-    cell.title = formatDateCN(d) +
-      (hasWeight ? '\n体重: ' + log.weight + '斤' : '') +
-      (hasPatch ? '\n✅ 已贴药膏' : '');
+  container.innerHTML='';
+  const firstDow = new Date(days[0]+'T00:00:00').getDay();
+  for(let i=0;i<firstDow;i++) container.appendChild(document.createElement('div'));
+  days.forEach(d=>{
+    const cell=document.createElement('div');
+    cell.className='heatmap-cell';
+    const log=logs[d]||{};
+    if(log.weight&&log.patch) cell.classList.add('has-both');
+    else if(log.weight) cell.classList.add('has-weight');
+    else if(log.patch) cell.classList.add('has-patch');
+    if(d===t) cell.classList.add('today-cell');
+    cell.title=formatDateCN(d)+(log.weight?'\n体重: '+log.weight+'斤':'')+(log.patch?'\n✅ 已贴药膏':'');
     container.appendChild(cell);
   });
 }
 
 function renderInjections() {
-  // Show last 12 weeks
-  const weeks = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i * 7);
-    const wk = weekKey(d);
-    // Get week date range
-    const start = new Date(d); start.setDate(d.getDate() - d.getDay() + 1);
-    const end = new Date(start); end.setDate(start.getDate() + 6);
-    weeks.push({
-      key: wk,
-      label: (start.getMonth()+1) + '/' + start.getDate() + '—' + (end.getMonth()+1) + '/' + end.getDate()
-    });
+  const weeks=[];
+  for(let i=11;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i*7);
+    const wk=weekKey(d);
+    const start=new Date(d); start.setDate(d.getDate()-d.getDay()+1);
+    const end=new Date(start); end.setDate(start.getDate()+6);
+    weeks.push({key:wk,label:(start.getMonth()+1)+'/'+start.getDate()+'—'+(end.getMonth()+1)+'/'+end.getDate()});
   }
-
-  const container = document.getElementById('inj-weeks');
-  container.innerHTML = '';
-  weeks.forEach(({ key, label }) => {
-    const el = document.createElement('div');
-    el.className = 'inj-week' + (injects[key] ? ' done' : '');
-    el.innerHTML = (injects[key] ? '✅ ' : '') + label;
-    el.onclick = () => { injects[key] = !injects[key]; save(); renderInjections(); renderTodayChecks(); };
+  const container=document.getElementById('inj-weeks');
+  container.innerHTML='';
+  weeks.forEach(({key,label})=>{
+    const el=document.createElement('div');
+    el.className='inj-week'+(injects[key]?' done':'');
+    el.innerHTML=(injects[key]?'✅ ':'')+label;
+    el.onclick=()=>{ injects[key]=!injects[key]; save(); renderInjections(); renderTodayChecks(); };
     container.appendChild(el);
   });
 }
 
-function renderHistory() {
-  const sorted = Object.keys(logs).filter(k => logs[k].weight).sort().reverse().slice(0, 20);
-  const container = document.getElementById('log-list');
-  if (sorted.length === 0) {
-    container.innerHTML = '<div class="empty-state">还没有记录，去打第一个卡吧！</div>';
-    return;
+// ── Weekly Summary ─────────────────────────────────────────
+let weekOffset = 0; // 0 = this week, 1 = last week, etc.
+
+function getWeekDates(offset) {
+  // Returns array of 7 date strings Mon–Sun for the given offset
+  const now = new Date();
+  const dow = now.getDay(); // 0=Sun
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1) - offset * 7);
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    days.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
   }
-  let html = '<table class="log-table"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th></tr></thead><tbody>';
-  sorted.forEach((d, i) => {
-    const log = logs[d];
-    let delta = '—';
-    // Find previous weight entry
-    const allSorted = Object.keys(logs).filter(k => logs[k].weight).sort();
-    const idx = allSorted.indexOf(d);
-    if (idx > 0) {
-      const prev = logs[allSorted[idx-1]].weight;
-      const diff = +(log.weight - prev).toFixed(1);
-      const cls = diff > 0 ? 'delta-pos' : 'delta-neg';
-      delta = `<span class="${cls}">${diff > 0 ? '+' : ''}${diff} 斤</span>`;
+  return days;
+}
+
+function renderWeeklySummary() {
+  const days = getWeekDates(weekOffset);
+  const mon = new Date(days[0]+'T00:00:00');
+  const sun = new Date(days[6]+'T00:00:00');
+  const fmt = d => (d.getMonth()+1)+'月'+d.getDate()+'日';
+  document.getElementById('week-nav-label').textContent =
+    fmt(mon) + ' – ' + fmt(sun) + (weekOffset===0?' （本周）':weekOffset===1?' （上周）':'');
+
+  // Weight records this week
+  const weightDays = days.filter(d => logs[d] && logs[d].weight);
+  const weights = weightDays.map(d => logs[d].weight);
+  const loggedCount = weightDays.length;
+  const patchCount = days.filter(d => logs[d] && logs[d].patch).length;
+  const wk = weekKey(new Date(days[3]+'T00:00:00')); // mid-week key
+  const injected = !!injects[wk];
+
+  // Weight change: last recorded - first recorded this week
+  let weightChange = null;
+  if (weights.length >= 2) weightChange = +(weights[weights.length-1] - weights[0]).toFixed(1);
+  else if (weights.length === 1 && weekOffset > 0) weightChange = null;
+
+  const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
+  const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
+
+  document.getElementById('week-stats').innerHTML = `
+    <div class="week-stat highlight-blue">
+      <div class="ws-val">${loggedCount}<span style="font-size:13px;font-weight:500"> / 7</span></div>
+      <div class="ws-label">体重打卡天数</div>
+    </div>
+    <div class="week-stat ${changeClass}">
+      <div class="ws-val">${changeStr}<span style="font-size:13px;font-weight:500">${weightChange!==null?' 斤':''}</span></div>
+      <div class="ws-label">本周体重变化</div>
+    </div>
+    <div class="week-stat ${patchCount===7?'highlight-green':''}">
+      <div class="ws-val">${patchCount}<span style="font-size:13px;font-weight:500"> / 7</span></div>
+      <div class="ws-label">药膏打卡天数</div>
+    </div>
+    <div class="week-stat ${injected?'highlight-green':''}">
+      <div class="ws-val">${injected?'✅':'—'}</div>
+      <div class="ws-label">本周打针</div>
+    </div>
+  `;
+
+  // Motivational note
+  const noteEl = document.getElementById('week-note');
+  let note = '';
+  if (loggedCount === 0) note = '这周还没有记录，没关系，重新开始就好 💪';
+  else if (weightChange !== null && weightChange < -1) note = `这周减了 ${Math.abs(weightChange)} 斤，状态很好！继续保持 🎉`;
+  else if (weightChange !== null && weightChange > 1) note = '这周体重有点上升，别焦虑，调整一下饮食，下周会更好 🌱';
+  else if (loggedCount >= 5) note = '这周打卡很积极，坚持记录本身就是一种成功 ✨';
+  else note = '每天记录体重能帮你更快看清趋势，试试每天早上起来就记 ☀️';
+
+  if (note) { noteEl.textContent = note; noteEl.style.display = 'block'; }
+  else noteEl.style.display = 'none';
+}
+
+let editingDate = null;
+
+function renderHistory() {
+  const sorted=Object.keys(logs).filter(k=>logs[k].weight).sort().reverse().slice(0,20);
+  const container=document.getElementById('log-list');
+  if(!sorted.length){ container.innerHTML='<div class="empty-state">还没有记录，去打第一个卡吧！</div>'; return; }
+  const allSorted=Object.keys(logs).filter(k=>logs[k].weight).sort();
+  let html='<table class="log-table"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th><th></th></tr></thead><tbody>';
+  sorted.forEach(d=>{
+    const log=logs[d];
+    if (d === editingDate) {
+      html+=`<tr class="log-edit-row">
+        <td>${formatDateCN(d)}</td>
+        <td><input type="number" id="edit-weight" value="${log.weight}" step="0.5" min="60" max="400" style="width:80px"></td>
+        <td>—</td>
+        <td style="text-align:center">
+          <input type="checkbox" id="edit-patch" ${log.patch?'checked':''} style="width:16px;height:16px;cursor:pointer">
+        </td>
+        <td><input type="text" id="edit-note" value="${log.note||''}" style="width:100px"></td>
+        <td>
+          <button class="save-btn" onclick="saveEdit('${d}')">保存</button>
+          <button class="cancel-btn" onclick="cancelEdit()">取消</button>
+        </td>
+      </tr>`;
+      return;
     }
-    const patchBadge = log.patch
-      ? `<span class="badge green">✅ 已贴</span>`
-      : `<span class="badge gray">未贴</span>`;
-    html += `<tr>
+    let delta='—';
+    const idx=allSorted.indexOf(d);
+    if(idx>0){
+      const diff=+(log.weight-logs[allSorted[idx-1]].weight).toFixed(1);
+      delta=`<span class="${diff>0?'delta-pos':'delta-neg'}">${diff>0?'+':''}${diff} 斤</span>`;
+    }
+    const pb=log.patch?`<span class="badge green">✅ 已贴</span>`:`<span class="badge gray">未贴</span>`;
+    html+=`<tr>
       <td>${formatDateCN(d)}</td>
       <td style="font-weight:700">${log.weight} 斤</td>
       <td>${delta}</td>
-      <td>${patchBadge}</td>
-      <td style="color:#6e6e73">${log.note || ''}</td>
+      <td>${pb}</td>
+      <td style="color:#6e6e73">${log.note||''}</td>
+      <td style="white-space:nowrap">
+        <button class="log-action-btn edit" onclick="startEdit('${d}')">改</button>
+        <button class="log-action-btn del" onclick="deleteLog('${d}')">删</button>
+      </td>
     </tr>`;
   });
-  html += '</tbody></table>';
-  container.innerHTML = html;
+  html+='</tbody></table>';
+  container.innerHTML=html;
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+function startEdit(d) {
+  editingDate = d;
+  renderHistory();
+  document.getElementById('edit-weight').focus();
+}
+
+function cancelEdit() {
+  editingDate = null;
+  renderHistory();
+}
+
+function saveEdit(d) {
+  const w = parseFloat(document.getElementById('edit-weight').value);
+  if (!w || w < 60) { alert('请输入正确的体重'); return; }
+  logs[d].weight = w;
+  logs[d].patch = document.getElementById('edit-patch').checked;
+  logs[d].note = document.getElementById('edit-note').value || '';
+  editingDate = null;
+  save(); render();
+}
+
+function deleteLog(d) {
+  if (!confirm(`确定删除 ${formatDateCN(d)} 的记录吗？`)) return;
+  delete logs[d].weight;
+  delete logs[d].note;
+  if (!logs[d].patch && !Object.keys(logs[d]).length) delete logs[d];
+  save(); render();
+}
+
 function showApp() {
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('setup-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
   render();
 }
 
@@ -869,16 +938,10 @@ function init() {
   load();
   document.getElementById('date-input').value = today();
   document.getElementById('date-input').max = today();
-  document.getElementById('date-input').addEventListener('change', () => renderTodayChecks());
-  if (cfg.startWeight && cfg.goalWeight) {
-    showApp();
-  }
-  // Close modal on overlay click
-  document.getElementById('settings-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeSettings();
-  });
+  document.getElementById('date-input').addEventListener('change',()=>renderTodayChecks());
+  document.getElementById('settings-modal').addEventListener('click',function(e){ if(e.target===this) closeSettings(); });
+  if(cfg.startWeight&&cfg.goalWeight) showApp();
 }
-
 init();
 </script>
 </body>
