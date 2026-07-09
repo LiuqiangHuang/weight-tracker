@@ -13,7 +13,6 @@
     color: #1d1d1f;
     min-height: 100vh;
   }
-
   #setup-screen {
     display: flex; align-items: center; justify-content: center;
     min-height: 100vh; padding: 24px;
@@ -42,7 +41,6 @@
   }
   .btn-primary:hover { background: #0066d6; }
   .btn-primary:active { transform: scale(0.98); }
-
   #app-screen { display: none; }
   header {
     background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
@@ -54,7 +52,6 @@
   header h1 { font-size: 20px; font-weight: 700; }
   .header-meta { font-size: 13px; color: #6e6e73; }
   .main-content { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
-
   .hero {
     background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
     border-radius: 24px; padding: 28px; color: white;
@@ -71,7 +68,6 @@
   .hero-stat .val { font-size: 26px; font-weight: 800; line-height: 1; }
   .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
   .hero-streak { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 12px; }
-
   .today-card {
     background: white; border-radius: 20px; padding: 24px;
     margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -88,7 +84,6 @@
   .check-item .name { font-size: 13px; font-weight: 600; color: #1d1d1f; }
   .check-item .status { font-size: 11px; color: #6e6e73; margin-top: 2px; }
   .check-item.done .status { color: #34c759; font-weight: 600; }
-
   .weight-input-row {
     display: flex; gap: 10px; margin-top: 16px; padding-top: 16px;
     border-top: 1px solid #f0f0f5; align-items: flex-end; flex-wrap: wrap;
@@ -108,8 +103,6 @@
     white-space: nowrap; transition: background 0.2s; align-self: flex-end; height: 44px;
   }
   .btn-log:hover { background: #0066d6; }
-
-  /* BMI Bar */
   .bmi-card {
     background: white; border-radius: 20px; padding: 24px;
     margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -147,16 +140,11 @@
     white-space: nowrap;
     transition: left 0.8s ease;
   }
-  .bmi-labels { display: flex; justify-content: space-between; margin-top: 8px; }
-  .bmi-label-item { font-size: 11px; color: #6e6e73; text-align: center; }
-  .bmi-label-item span { display: block; font-weight: 600; }
   .bmi-sections {
     display: grid; grid-template-columns: 18fr 36fr 22fr 24fr;
     gap: 6px; margin-top: 12px;
   }
-  .bmi-section {
-    border-radius: 8px; padding: 8px 10px; text-align: center;
-  }
+  .bmi-section { border-radius: 8px; padding: 8px 10px; text-align: center; }
   .bmi-section .s-label { font-size: 11px; font-weight: 700; }
   .bmi-section .s-range { font-size: 10px; opacity: 0.8; margin-top: 2px; }
   .bmi-section.underweight { background: #dbeafe; color: #1d4ed8; }
@@ -164,12 +152,10 @@
   .bmi-section.overweight { background: #ffedd5; color: #c2410c; }
   .bmi-section.obese { background: #fee2e2; color: #b91c1c; }
   .bmi-section.active-section { outline: 2px solid currentColor; outline-offset: 2px; }
-
   .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
   .chart-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   .chart-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #1d1d1f; }
   .chart-wrap { position: relative; }
-
   .heatmap-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-top: 8px; }
   .heatmap-cell {
     aspect-ratio: 1; border-radius: 5px; background: #f0f0f5;
@@ -184,7 +170,6 @@
   .heatmap-legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6e6e73; }
   .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
-
   .log-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .log-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
   .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -196,7 +181,6 @@
   .badge.gray { background: #f0f0f5; color: #6e6e73; }
   .delta-pos { color: #ff3b30; font-weight: 600; }
   .delta-neg { color: #34c759; font-weight: 600; }
-  /* Weekly summary */
   .week-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .week-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
   .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -211,7 +195,6 @@
   .week-stat.highlight-red .ws-val { color: #ff3b30; }
   .week-stat.highlight-blue .ws-val { color: #007aff; }
   .week-note { margin-top: 14px; padding: 12px 16px; background: #f0f6ff; border-radius: 12px; font-size: 13px; color: #007aff; font-weight: 500; line-height: 1.5; }
-
   .log-action-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 3px 7px; border-radius: 6px; font-weight: 600; transition: background 0.15s; }
   .log-action-btn.edit { color: #007aff; }
   .log-action-btn.edit:hover { background: #e8f0ff; }
@@ -221,7 +204,6 @@
   .log-edit-row input { border: 1.5px solid #007aff; border-radius: 8px; padding: 5px 10px; font-size: 14px; outline: none; }
   .log-edit-row .save-btn { background: #007aff; color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-right: 4px; }
   .log-edit-row .cancel-btn { background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 8px; padding: 5px 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
-
   .settings-btn { background: none; border: none; cursor: pointer; color: #6e6e73; font-size: 20px; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
   .settings-btn:hover { background: #f0f0f5; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
@@ -232,9 +214,7 @@
   .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
   .btn-cancel { flex: 1; background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 12px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
   .modal-btns .btn-primary { flex: 1; margin: 0; }
-
   .empty-state { text-align: center; color: #6e6e73; padding: 24px; font-size: 14px; }
-
   @media (max-width: 600px) {
     .chart-grid { grid-template-columns: 1fr; }
     .hero { flex-direction: column; text-align: center; }
@@ -247,7 +227,6 @@
 </head>
 <body>
 
-<!-- Setup -->
 <div id="setup-screen">
   <div class="setup-card">
     <div class="emoji">🏃‍♀️</div>
@@ -284,7 +263,6 @@
   </div>
 </div>
 
-<!-- App -->
 <div id="app-screen">
   <header>
     <div>
@@ -296,7 +274,6 @@
 
   <div class="main-content">
 
-    <!-- Hero -->
     <div class="hero">
       <div class="hero-ring">
         <svg viewBox="0 0 110 110">
@@ -327,7 +304,6 @@
       </div>
     </div>
 
-    <!-- Today -->
     <div class="today-card">
       <h2>📅 今日打卡</h2>
       <div class="today-grid">
@@ -369,7 +345,6 @@
       </div>
     </div>
 
-    <!-- BMI Bar -->
     <div class="bmi-card">
       <h2>📏 BMI 指数</h2>
       <div class="bmi-bar-wrap">
@@ -398,7 +373,6 @@
       </div>
     </div>
 
-    <!-- Charts -->
     <div class="chart-grid">
       <div class="chart-card">
         <h2>📈 体重趋势</h2>
@@ -417,7 +391,6 @@
       </div>
     </div>
 
-    <!-- Weekly Summary -->
     <div class="week-card">
       <h2>📆 每周小结</h2>
       <div class="week-nav">
@@ -429,7 +402,26 @@
       <div class="week-note" id="week-note" style="display:none"></div>
     </div>
 
-    <!-- History -->
+    <div class="log-card" style="margin-bottom:20px">
+      <h2>🔥 千焦 / 千卡换算</h2>
+      <p style="font-size:12px;color:#6e6e73;margin-bottom:16px">1 千卡（kcal）= 4.184 千焦（kJ）&nbsp;·&nbsp; 食品标签常同时标注两者</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div class="weight-field">
+          <label>千焦（kJ）</label>
+          <input type="number" id="conv-kj" placeholder="0" min="0" step="0.1"
+            oninput="document.getElementById('conv-kcal').value = this.value===''?'':(+this.value/4.184).toFixed(1)"
+            style="font-size:17px">
+        </div>
+        <div style="font-size:22px;color:#6e6e73;padding-top:20px">⇄</div>
+        <div class="weight-field">
+          <label>千卡（kcal）</label>
+          <input type="number" id="conv-kcal" placeholder="0" min="0" step="0.1"
+            oninput="document.getElementById('conv-kj').value = this.value===''?'':(+this.value*4.184).toFixed(1)"
+            style="font-size:17px">
+        </div>
+      </div>
+    </div>
+
     <div class="log-card">
       <h2>📋 历史记录</h2>
       <div id="log-list"><div class="empty-state">还没有记录，去打第一个卡吧！</div></div>
@@ -438,7 +430,6 @@
   </div>
 </div>
 
-<!-- Settings Modal -->
 <div class="modal-overlay" id="settings-modal">
   <div class="modal">
     <h2>⚙️ 设置</h2>
@@ -509,10 +500,8 @@ function renderBMIBar(bmi) {
   const label = document.getElementById('bmi-value-label');
   if (!bmi) { pointer.style.display='none'; label.style.display='none'; return; }
   const pct = bmiToPercent(bmi);
-  pointer.style.display = 'block';
-  pointer.style.left = pct + '%';
-  label.style.display = 'block';
-  label.style.left = pct + '%';
+  pointer.style.display = 'block'; pointer.style.left = pct + '%';
+  label.style.display = 'block'; label.style.left = pct + '%';
   label.textContent = bmi;
   ['bmi-sec-under','bmi-sec-normal','bmi-sec-over','bmi-sec-obese'].forEach(id => {
     document.getElementById(id).classList.remove('active-section');
@@ -612,7 +601,6 @@ function renderHero() {
   const remain = +(current-cfg.goalWeight).toFixed(1);
   const totalToLose = cfg.startWeight-cfg.goalWeight;
   const pct = Math.max(0,Math.min(100,Math.round(lost/totalToLose*100)));
-
   document.getElementById('stat-current').textContent = current;
   document.getElementById('stat-lost').textContent = lost>0?'-'+lost:lost;
   if (remain>0) {
@@ -622,12 +610,10 @@ function renderHero() {
     document.getElementById('stat-remain').textContent = '✅达标';
     document.getElementById('remain-label').textContent = '距目标';
   }
-
   document.getElementById('ring-pct').textContent = pct+'%';
   const circ = 2*Math.PI*46;
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
-
   const allDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
   let daysSince = 0;
   if (allDates.length>0) {
@@ -635,7 +621,6 @@ function renderHero() {
     const now = new Date(today()+'T00:00:00');
     daysSince = Math.round((now-first)/86400000)+1;
   }
-
   let ps=0;
   for(let i=0;i<365;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
@@ -645,7 +630,6 @@ function renderHero() {
   }
   document.getElementById('hero-streak').innerHTML =
     `🗓️ 减肥第 <strong>${daysSince}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${ps}</strong> 天`;
-
   let bmiVal = null;
   if (cfg.height && current) {
     const h = cfg.height/100;
@@ -660,14 +644,11 @@ function renderTodayChecks() {
   const t = document.getElementById('date-input').value||today();
   const tl = logs[t]||{};
   const wk = weekKey();
-
   document.getElementById('patch-item').classList.toggle('done',!!tl.patch);
   document.getElementById('patch-status').textContent = tl.patch?'✅ 已贴':'点击打卡';
   document.getElementById('patch-name-display').textContent = cfg.patchName||'药膏';
-
   document.getElementById('inject-item').classList.toggle('done',!!injects[wk]);
   document.getElementById('inject-status').textContent = injects[wk]?'✅ 已打':'点击打卡';
-
   const todayWeightEl = document.getElementById('today-weight-display');
   if (tl.weight) {
     todayWeightEl.textContent = tl.weight + ' 斤';
@@ -693,7 +674,6 @@ function renderWeightChart() {
     const sl=weights.slice(Math.max(0,i-6),i+1);
     return +(sl.reduce((a,b)=>a+b,0)/sl.length).toFixed(2);
   });
-
   const ctx = document.getElementById('weight-chart').getContext('2d');
   if (weightChart) weightChart.destroy();
   weightChart = new Chart(ctx,{
@@ -763,20 +743,16 @@ function renderWeeklySummary() {
   const fmt = d => (d.getMonth()+1)+'月'+d.getDate()+'日';
   document.getElementById('week-nav-label').textContent =
     fmt(mon) + ' – ' + fmt(sun) + (weekOffset===0?' （本周）':weekOffset===1?' （上周）':'');
-
   const weightDays = days.filter(d => logs[d] && logs[d].weight);
   const weights = weightDays.map(d => logs[d].weight);
   const loggedCount = weightDays.length;
   const patchCount = days.filter(d => logs[d] && logs[d].patch).length;
   const wk = weekKey(new Date(days[3]+'T00:00:00'));
   const injected = !!injects[wk];
-
   let weightChange = null;
   if (weights.length >= 2) weightChange = +(weights[weights.length-1] - weights[0]).toFixed(1);
-
   const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
   const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
-
   document.getElementById('week-stats').innerHTML = `
     <div class="week-stat highlight-blue">
       <div class="ws-val">${loggedCount}<span style="font-size:13px;font-weight:500"> / 7</span></div>
@@ -795,7 +771,6 @@ function renderWeeklySummary() {
       <div class="ws-label">打针 <span style="font-size:10px;opacity:0.6">（点击切换）</span></div>
     </div>
   `;
-
   const noteEl = document.getElementById('week-note');
   let note = '';
   if (loggedCount === 0) note = '这周还没有记录，没关系，重新开始就好 💪';
@@ -803,7 +778,6 @@ function renderWeeklySummary() {
   else if (weightChange !== null && weightChange > 1) note = '这周体重有点上升，别焦虑，调整一下饮食，下周会更好 🌱';
   else if (loggedCount >= 5) note = '这周打卡很积极，坚持记录本身就是一种成功 ✨';
   else note = '每天记录体重能帮你更快看清趋势，试试每天早上起来就记 ☀️';
-
   if (note) { noteEl.textContent = note; noteEl.style.display = 'block'; }
   else noteEl.style.display = 'none';
 }
@@ -862,12 +836,10 @@ function startEdit(d) {
   renderHistory();
   document.getElementById('edit-weight').focus();
 }
-
 function cancelEdit() {
   editingDate = null;
   renderHistory();
 }
-
 function saveEdit(d) {
   const w = parseFloat(document.getElementById('edit-weight').value);
   if (!w || w < 60) { alert('请输入正确的体重'); return; }
@@ -877,7 +849,6 @@ function saveEdit(d) {
   editingDate = null;
   save(); render();
 }
-
 function deleteLog(d) {
   if (!confirm(`确定删除 ${formatDateCN(d)} 的记录吗？`)) return;
   delete logs[d].weight;
@@ -885,13 +856,11 @@ function deleteLog(d) {
   if (!logs[d].patch && !Object.keys(logs[d]).length) delete logs[d];
   save(); render();
 }
-
 function showApp() {
   document.getElementById('setup-screen').style.display='none';
   document.getElementById('app-screen').style.display='block';
   render();
 }
-
 function init() {
   load();
   document.getElementById('date-input').value = today();
