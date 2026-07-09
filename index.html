@@ -233,21 +233,13 @@
   .btn-cancel { flex: 1; background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 12px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
   .modal-btns .btn-primary { flex: 1; margin: 0; }
 
-  .inj-card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
-  .inj-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
-  .inj-weeks { display: flex; gap: 8px; flex-wrap: wrap; }
-  .inj-week { border: 1.5px solid #e0e0e5; border-radius: 12px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-  .inj-week:hover { border-color: #5856d6; background: #f5f3ff; }
-  .inj-week.done { background: #ede9fe; border-color: #5856d6; color: #5856d6; }
-
   .empty-state { text-align: center; color: #6e6e73; padding: 24px; font-size: 14px; }
-
 
   @media (max-width: 600px) {
     .chart-grid { grid-template-columns: 1fr; }
     .hero { flex-direction: column; text-align: center; }
     .hero-stats { grid-template-columns: repeat(3,1fr); }
-    .today-grid { grid-template-columns: 1fr 1fr; } /* already 2-col, stays the same */
+    .today-grid { grid-template-columns: 1fr 1fr; }
     .bmi-sections { grid-template-columns: 1fr 1fr; gap: 6px; }
     .setup-card { padding: 32px 20px; }
   }
@@ -437,12 +429,6 @@
       <div class="week-note" id="week-note" style="display:none"></div>
     </div>
 
-    <!-- Injections -->
-    <div class="inj-card">
-      <h2>💉 打针记录（按周）</h2>
-      <div class="inj-weeks" id="inj-weeks"></div>
-    </div>
-
     <!-- History -->
     <div class="log-card">
       <h2>📋 历史记录</h2>
@@ -514,11 +500,7 @@ function getDaysBefore(n) {
   return days;
 }
 
-// BMI helpers
-// BMI range: display 14–35, pointer clamped
 const BMI_MIN = 14, BMI_MAX = 35;
-// section boundaries as % of bar
-// underweight: <18.5 → 0–18%  normal: 18.5–24 → 18–54%  overweight: 24–28 → 54–76%  obese: 28+ → 76–100%
 function bmiToPercent(bmi) {
   return Math.max(0, Math.min(100, (bmi - BMI_MIN) / (BMI_MAX - BMI_MIN) * 100));
 }
@@ -532,8 +514,6 @@ function renderBMIBar(bmi) {
   label.style.display = 'block';
   label.style.left = pct + '%';
   label.textContent = bmi;
-
-  // Highlight active section
   ['bmi-sec-under','bmi-sec-normal','bmi-sec-over','bmi-sec-obese'].forEach(id => {
     document.getElementById(id).classList.remove('active-section');
   });
@@ -601,14 +581,21 @@ function togglePatch() {
 function toggleInject() {
   const wk = weekKey();
   injects[wk] = !injects[wk];
-  save(); renderTodayChecks(); renderInjections();
+  save(); renderTodayChecks(); renderWeeklySummary();
+}
+
+function toggleInjectWeek(wk) {
+  injects[wk] = !injects[wk];
+  save();
+  if (wk === weekKey()) renderTodayChecks();
+  renderWeeklySummary();
 }
 
 let weightChart = null;
 
 function render() {
   renderHeader(); renderHero(); renderTodayChecks();
-  renderWeightChart(); renderHeatmap(); renderWeeklySummary(); renderInjections(); renderHistory();
+  renderWeightChart(); renderHeatmap(); renderWeeklySummary(); renderHistory();
 }
 
 function renderHeader() {
@@ -641,7 +628,6 @@ function renderHero() {
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
 
-  // Days since first log
   const allDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
   let daysSince = 0;
   if (allDates.length>0) {
@@ -650,7 +636,6 @@ function renderHero() {
     daysSince = Math.round((now-first)/86400000)+1;
   }
 
-  // Patch streak
   let ps=0;
   for(let i=0;i<365;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
@@ -661,7 +646,6 @@ function renderHero() {
   document.getElementById('hero-streak').innerHTML =
     `🗓️ 减肥第 <strong>${daysSince}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${ps}</strong> 天`;
 
-  // BMI
   let bmiVal = null;
   if (cfg.height && current) {
     const h = cfg.height/100;
@@ -757,33 +741,11 @@ function renderHeatmap() {
   });
 }
 
-function renderInjections() {
-  const weeks=[];
-  for(let i=11;i>=0;i--){
-    const d=new Date(); d.setDate(d.getDate()-i*7);
-    const wk=weekKey(d);
-    const start=new Date(d); start.setDate(d.getDate()-d.getDay()+1);
-    const end=new Date(start); end.setDate(start.getDate()+6);
-    weeks.push({key:wk,label:(start.getMonth()+1)+'/'+start.getDate()+'—'+(end.getMonth()+1)+'/'+end.getDate()});
-  }
-  const container=document.getElementById('inj-weeks');
-  container.innerHTML='';
-  weeks.forEach(({key,label})=>{
-    const el=document.createElement('div');
-    el.className='inj-week'+(injects[key]?' done':'');
-    el.innerHTML=(injects[key]?'✅ ':'')+label;
-    el.onclick=()=>{ injects[key]=!injects[key]; save(); renderInjections(); renderTodayChecks(); };
-    container.appendChild(el);
-  });
-}
-
-// ── Weekly Summary ─────────────────────────────────────────
-let weekOffset = 0; // 0 = this week, 1 = last week, etc.
+let weekOffset = 0;
 
 function getWeekDates(offset) {
-  // Returns array of 7 date strings Mon–Sun for the given offset
   const now = new Date();
-  const dow = now.getDay(); // 0=Sun
+  const dow = now.getDay();
   const monday = new Date(now);
   monday.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1) - offset * 7);
   const days = [];
@@ -802,18 +764,15 @@ function renderWeeklySummary() {
   document.getElementById('week-nav-label').textContent =
     fmt(mon) + ' – ' + fmt(sun) + (weekOffset===0?' （本周）':weekOffset===1?' （上周）':'');
 
-  // Weight records this week
   const weightDays = days.filter(d => logs[d] && logs[d].weight);
   const weights = weightDays.map(d => logs[d].weight);
   const loggedCount = weightDays.length;
   const patchCount = days.filter(d => logs[d] && logs[d].patch).length;
-  const wk = weekKey(new Date(days[3]+'T00:00:00')); // mid-week key
+  const wk = weekKey(new Date(days[3]+'T00:00:00'));
   const injected = !!injects[wk];
 
-  // Weight change: last recorded - first recorded this week
   let weightChange = null;
   if (weights.length >= 2) weightChange = +(weights[weights.length-1] - weights[0]).toFixed(1);
-  else if (weights.length === 1 && weekOffset > 0) weightChange = null;
 
   const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
   const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
@@ -831,13 +790,12 @@ function renderWeeklySummary() {
       <div class="ws-val">${patchCount}<span style="font-size:13px;font-weight:500"> / 7</span></div>
       <div class="ws-label">药膏打卡天数</div>
     </div>
-    <div class="week-stat ${injected?'highlight-green':''}">
+    <div class="week-stat ${injected?'highlight-green':''}" onclick="toggleInjectWeek('${wk}')" style="cursor:pointer;" title="点击切换打针状态">
       <div class="ws-val">${injected?'✅':'—'}</div>
-      <div class="ws-label">本周打针</div>
+      <div class="ws-label">打针 <span style="font-size:10px;opacity:0.6">（点击切换）</span></div>
     </div>
   `;
 
-  // Motivational note
   const noteEl = document.getElementById('week-note');
   let note = '';
   if (loggedCount === 0) note = '这周还没有记录，没关系，重新开始就好 💪';
