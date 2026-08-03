@@ -621,15 +621,9 @@ function renderHero() {
     const now = new Date(today()+'T00:00:00');
     daysSince = Math.round((now-first)/86400000)+1;
   }
-  let ps=0;
-  for(let i=0;i<365;i++){
-    const d=new Date(); d.setDate(d.getDate()-i);
-    const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-    if(logs[s]&&logs[s].patch) ps++;
-    else if(i>0) break;
-  }
+
   document.getElementById('hero-streak').innerHTML =
-    `🗓️ 减肥第 <strong>${daysSince}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${ps}</strong> 天`;
+  `🗓️ 减肥第 <strong>${daysSince}</strong> 天`;
   let bmiVal = null;
   if (cfg.height && current) {
     const h = cfg.height/100;
