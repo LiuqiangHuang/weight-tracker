@@ -777,52 +777,81 @@ function renderWeeklySummary() {
 }
 
 let editingDate = null;
+let collapsedMonths = new Set();
 
 function renderHistory() {
-  const sorted=Object.keys(logs).filter(k=>logs[k].weight).sort().reverse().slice(0,20);
-  const container=document.getElementById('log-list');
-  if(!sorted.length){ container.innerHTML='<div class="empty-state">还没有记录，去打第一个卡吧！</div>'; return; }
-  const allSorted=Object.keys(logs).filter(k=>logs[k].weight).sort();
-  let html='<table class="log-table"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th><th></th></tr></thead><tbody>';
-  sorted.forEach(d=>{
-    const log=logs[d];
-    if (d === editingDate) {
-      html+=`<tr class="log-edit-row">
-        <td>${formatDateCN(d)}</td>
-        <td><input type="number" id="edit-weight" value="${log.weight}" step="0.5" min="60" max="400" style="width:80px"></td>
-        <td>—</td>
-        <td style="text-align:center">
-          <input type="checkbox" id="edit-patch" ${log.patch?'checked':''} style="width:16px;height:16px;cursor:pointer">
-        </td>
-        <td><input type="text" id="edit-note" value="${log.note||''}" style="width:100px"></td>
-        <td>
-          <button class="save-btn" onclick="saveEdit('${d}')">保存</button>
-          <button class="cancel-btn" onclick="cancelEdit()">取消</button>
-        </td>
-      </tr>`;
-      return;
-    }
-    let delta='—';
-    const idx=allSorted.indexOf(d);
-    if(idx>0){
-      const diff=+(log.weight-logs[allSorted[idx-1]].weight).toFixed(1);
-      delta=`<span class="${diff>0?'delta-pos':'delta-neg'}">${diff>0?'+':''}${diff} 斤</span>`;
-    }
-    const pb=log.patch?`<span class="badge green">✅ 已贴</span>`:`<span class="badge gray">未贴</span>`;
-    html+=`<tr>
-      <td>${formatDateCN(d)}</td>
-      <td style="font-weight:700">${log.weight} 斤</td>
-      <td>${delta}</td>
-      <td>${pb}</td>
-      <td style="color:#6e6e73">${log.note||''}</td>
-      <td style="white-space:nowrap">
-        <button class="log-action-btn edit" onclick="startEdit('${d}')">改</button>
-        <button class="log-action-btn del" onclick="deleteLog('${d}')">删</button>
-      </td>
-    </tr>`;
+  const all = Object.keys(logs).filter(k=>logs[k].weight).sort().reverse();
+  const container = document.getElementById('log-list');
+  if (!all.length) { container.innerHTML='<div class="empty-state">还没有记录，去打第一个卡吧！</div>'; return; }
+  const allSorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
+
+  const groups = {};
+  all.forEach(d => {
+    const dt = new Date(d+'T00:00:00');
+    const key = dt.getFullYear()+'年'+(dt.getMonth()+1)+'月';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(d);
   });
-  html+='</tbody></table>';
-  container.innerHTML=html;
+
+  let html = '';
+  Object.keys(groups).forEach(month => {
+    const days = groups[month];
+    const isCollapsed = collapsedMonths.has(month);
+    const safeMonth = month.replace(/[^0-9年月]/g,'');
+    html += `
+      <div style="margin-bottom:12px">
+        <div onclick="toggleMonth('${safeMonth}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f9f9fb;border-radius:12px;cursor:pointer;user-select:none;">
+          <span style="font-weight:700;font-size:14px">${month}</span>
+          <span style="color:#6e6e73;font-size:13px">${days.length} 条 ${isCollapsed?'▸':'▾'}</span>
+        </div>`;
+    if (!isCollapsed) {
+      html += `<table class="log-table" style="margin-top:4px"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th><th></th></tr></thead><tbody>`;
+      days.forEach(d => {
+        const log = logs[d];
+        if (d === editingDate) {
+          html+=`<tr class="log-edit-row">
+            <td>${formatDateCN(d)}</td>
+            <td><input type="number" id="edit-weight" value="${log.weight}" step="0.5" min="60" max="400" style="width:80px"></td>
+            <td>—</td>
+            <td style="text-align:center"><input type="checkbox" id="edit-patch" ${log.patch?'checked':''} style="width:16px;height:16px;cursor:pointer"></td>
+            <td><input type="text" id="edit-note" value="${log.note||''}" style="width:100px"></td>
+            <td>
+              <button class="save-btn" onclick="saveEdit('${d}')">保存</button>
+              <button class="cancel-btn" onclick="cancelEdit()">取消</button>
+            </td>
+          </tr>`;
+          return;
+        }
+        let delta='—';
+        const idx=allSorted.indexOf(d);
+        if(idx>0){
+          const diff=+(log.weight-logs[allSorted[idx-1]].weight).toFixed(1);
+          delta=`<span class="${diff>0?'delta-pos':'delta-neg'}">${diff>0?'+':''}${diff} 斤</span>`;
+        }
+        const pb=log.patch?`<span class="badge green">✅ 已贴</span>`:`<span class="badge gray">未贴</span>`;
+        html+=`<tr>
+          <td>${formatDateCN(d)}</td>
+          <td style="font-weight:700">${log.weight} 斤</td>
+          <td>${delta}</td><td>${pb}</td>
+          <td style="color:#6e6e73">${log.note||''}</td>
+          <td style="white-space:nowrap">
+            <button class="log-action-btn edit" onclick="startEdit('${d}')">改</button>
+            <button class="log-action-btn del" onclick="deleteLog('${d}')">删</button>
+          </td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+    }
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleMonth(month) {
+  if (collapsedMonths.has(month)) collapsedMonths.delete(month);
+  else collapsedMonths.add(month);
+  renderHistory();
 }
 
 function startEdit(d) {
