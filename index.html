@@ -744,7 +744,15 @@ function renderWeeklySummary() {
   const wk = weekKey(new Date(days[3]+'T00:00:00'));
   const injected = !!injects[wk];
   let weightChange = null;
-  if (weights.length >= 2) weightChange = +(weights[weights.length-1] - weights[0]).toFixed(1);
+const lastThisWeek = weights.length ? weights[weights.length-1] : null;
+// 找本周第一天之前最近的一条记录作为基准
+const prevWeight = Object.keys(logs)
+  .filter(k => logs[k].weight && k < days[0])
+  .sort().reverse()[0];
+const baseline = prevWeight ? logs[prevWeight].weight : (weights.length ? weights[0] : null);
+if (lastThisWeek !== null && baseline !== null && (prevWeight || weights.length >= 2)) {
+  weightChange = +(lastThisWeek - baseline).toFixed(1);
+}
   const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
   const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
   document.getElementById('week-stats').innerHTML = `
