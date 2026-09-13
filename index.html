@@ -335,7 +335,13 @@
         </div>
         <div class="weight-field">
           <label>空腹体重 (斤)</label>
-          <input type="number" id="weight-input" placeholder="0.0" step="0.5" min="60" max="400">
+          <div style="display:flex;gap:6px;align-items:center">
+  <input type="number" id="weight-input" placeholder="0.0" step="0.1" min="1" max="400" style="flex:1;width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:18px;font-weight:600;outline:none;">
+  <select id="unit-toggle" style="border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 10px;font-size:15px;font-weight:600;outline:none;background:white;cursor:pointer;">
+    <option value="jin">斤</option>
+    <option value="kg">kg</option>
+  </select>
+</div>
         </div>
         <div class="weight-field note-field">
           <label>备注（可选）</label>
@@ -547,8 +553,10 @@ function saveSettings() {
 }
 
 function logWeight() {
-  const w = parseFloat(document.getElementById('weight-input').value);
-  if (!w||w<60) { alert('请输入正确的体重（单位：斤）'); return; }
+  let w = parseFloat(document.getElementById('weight-input').value);
+  if (!w||w<1) { alert('请输入正确的体重'); return; }
+  if (document.getElementById('unit-toggle').value === 'kg') w = +(w * 2).toFixed(1);
+  if (w < 60) { alert('体重换算后小于60斤，请检查输入'); return; }
   const dateVal = document.getElementById('date-input').value;
   if (!dateVal) { alert('请选择日期'); return; }
   if (!logs[dateVal]) logs[dateVal]={};
