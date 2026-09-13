@@ -222,6 +222,9 @@
     .today-grid { grid-template-columns: 1fr 1fr; }
     .bmi-sections { grid-template-columns: 1fr 1fr; gap: 6px; }
     .setup-card { padding: 32px 20px; }
+    .weight-input-row { flex-direction: column; }
+    .weight-input-row .weight-field { width: 100%; }
+    .btn-log { width: 100%; }
   }
 </style>
 </head>
@@ -336,7 +339,7 @@
         <div class="weight-field">
           <label>空腹体重 (斤)</label>
           <div style="display:flex;gap:6px;align-items:center">
-  <input type="number" id="weight-input" placeholder="0.0" step="0.1" min="1" max="400" style="flex:1;width:100%;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:18px;font-weight:600;outline:none;">
+  <input type="number" id="weight-input" placeholder="0.0" step="0.1" min="1" max="400" style="flex:1;min-width:0;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:18px;font-weight:600;outline:none;">
   <select id="unit-toggle" style="border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 10px;font-size:15px;font-weight:600;outline:none;background:white;cursor:pointer;">
     <option value="jin">斤</option>
     <option value="kg">kg</option>
