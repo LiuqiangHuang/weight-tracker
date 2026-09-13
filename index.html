@@ -245,8 +245,14 @@
   .hero-stats { grid-template-columns: repeat(3,1fr); }
   .bmi-sections { grid-template-columns: 1fr 1fr; gap: 6px; }
   .setup-card { padding: 32px 20px; }
-  /* 输入区：所有字段各占一整行 */
   .weight-input-row { flex-direction: column; gap: 10px; }
+  #date-input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+  }
   #date-field, #weight-field-main, .note-field { width: 100%; flex: none; }
   .unit-toggle-wrap input { font-size: 20px; }
   .unit-btn { width: 52px; height: 48px; font-size: 14px; }
