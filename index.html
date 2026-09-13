@@ -13,6 +13,7 @@
     color: #1d1d1f;
     min-height: 100vh;
   }
+
   #setup-screen {
     display: flex; align-items: center; justify-content: center;
     min-height: 100vh; padding: 24px;
@@ -41,6 +42,7 @@
   }
   .btn-primary:hover { background: #0066d6; }
   .btn-primary:active { transform: scale(0.98); }
+
   #app-screen { display: none; }
   header {
     background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
@@ -52,6 +54,7 @@
   header h1 { font-size: 20px; font-weight: 700; }
   .header-meta { font-size: 13px; color: #6e6e73; }
   .main-content { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
   .hero {
     background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
     border-radius: 24px; padding: 28px; color: white;
@@ -68,6 +71,7 @@
   .hero-stat .val { font-size: 26px; font-weight: 800; line-height: 1; }
   .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
   .hero-streak { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 12px; }
+
   .today-card {
     background: white; border-radius: 20px; padding: 24px;
     margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -84,6 +88,7 @@
   .check-item .name { font-size: 13px; font-weight: 600; color: #1d1d1f; }
   .check-item .status { font-size: 11px; color: #6e6e73; margin-top: 2px; }
   .check-item.done .status { color: #34c759; font-weight: 600; }
+
   .weight-input-row {
     display: flex; gap: 10px; margin-top: 16px; padding-top: 16px;
     border-top: 1px solid #f0f0f5; align-items: flex-end; flex-wrap: wrap;
@@ -103,6 +108,18 @@
     white-space: nowrap; transition: background 0.2s; align-self: flex-end; height: 44px;
   }
   .btn-log:hover { background: #0066d6; }
+
+  .unit-toggle-wrap { display: flex; gap: 6px; align-items: center; }
+  .unit-toggle-wrap input { flex: 1; min-width: 0; }
+  .unit-btn {
+    flex-shrink: 0; width: 44px; height: 44px;
+    border: 1.5px solid #e0e0e5; border-radius: 12px;
+    background: white; font-size: 13px; font-weight: 700;
+    color: #6e6e73; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .unit-btn.active { background: #007aff; border-color: #007aff; color: white; }
+
   .bmi-card {
     background: white; border-radius: 20px; padding: 24px;
     margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -152,10 +169,12 @@
   .bmi-section.overweight { background: #ffedd5; color: #c2410c; }
   .bmi-section.obese { background: #fee2e2; color: #b91c1c; }
   .bmi-section.active-section { outline: 2px solid currentColor; outline-offset: 2px; }
+
   .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
   .chart-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   .chart-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #1d1d1f; }
   .chart-wrap { position: relative; }
+
   .heatmap-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-top: 8px; }
   .heatmap-cell {
     aspect-ratio: 1; border-radius: 5px; background: #f0f0f5;
@@ -170,6 +189,7 @@
   .heatmap-legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6e6e73; }
   .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
   .log-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .log-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
   .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -181,6 +201,7 @@
   .badge.gray { background: #f0f0f5; color: #6e6e73; }
   .delta-pos { color: #ff3b30; font-weight: 600; }
   .delta-neg { color: #34c759; font-weight: 600; }
+
   .week-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 20px; }
   .week-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
   .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -195,6 +216,7 @@
   .week-stat.highlight-red .ws-val { color: #ff3b30; }
   .week-stat.highlight-blue .ws-val { color: #007aff; }
   .week-note { margin-top: 14px; padding: 12px 16px; background: #f0f6ff; border-radius: 12px; font-size: 13px; color: #007aff; font-weight: 500; line-height: 1.5; }
+
   .log-action-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 3px 7px; border-radius: 6px; font-weight: 600; transition: background 0.15s; }
   .log-action-btn.edit { color: #007aff; }
   .log-action-btn.edit:hover { background: #e8f0ff; }
@@ -204,6 +226,7 @@
   .log-edit-row input { border: 1.5px solid #007aff; border-radius: 8px; padding: 5px 10px; font-size: 14px; outline: none; }
   .log-edit-row .save-btn { background: #007aff; color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-right: 4px; }
   .log-edit-row .cancel-btn { background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 8px; padding: 5px 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
   .settings-btn { background: none; border: none; cursor: pointer; color: #6e6e73; font-size: 20px; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
   .settings-btn:hover { background: #f0f0f5; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
@@ -215,16 +238,18 @@
   .btn-cancel { flex: 1; background: #f0f0f5; color: #1d1d1f; border: none; border-radius: 12px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
   .modal-btns .btn-primary { flex: 1; margin: 0; }
   .empty-state { text-align: center; color: #6e6e73; padding: 24px; font-size: 14px; }
+
   @media (max-width: 600px) {
     .chart-grid { grid-template-columns: 1fr; }
     .hero { flex-direction: column; text-align: center; }
     .hero-stats { grid-template-columns: repeat(3,1fr); }
-    .today-grid { grid-template-columns: 1fr 1fr; }
     .bmi-sections { grid-template-columns: 1fr 1fr; gap: 6px; }
     .setup-card { padding: 32px 20px; }
-    .weight-input-row { flex-direction: column; }
-    .weight-input-row .weight-field { width: 100%; }
-    .btn-log { width: 100%; }
+    .weight-input-row { flex-wrap: wrap; gap: 8px; }
+    #date-field { width: 140px; flex: none; }
+    #weight-field-main { flex: 1; min-width: 120px; }
+    .note-field { width: 100%; flex: none; }
+    .btn-log { width: 100%; height: 48px; font-size: 16px; }
   }
 </style>
 </head>
@@ -332,19 +357,17 @@
         </div>
       </div>
       <div class="weight-input-row">
-        <div class="weight-field" style="flex:0.8;min-width:110px">
+        <div class="weight-field" id="date-field">
           <label>日期</label>
           <input type="date" id="date-input" style="font-size:15px;font-weight:600;" onfocus="this.style.borderColor='#007aff'" onblur="this.style.borderColor='#e0e0e5'">
         </div>
-        <div class="weight-field">
-          <label>空腹体重 (斤)</label>
-          <div style="display:flex;gap:6px;align-items:center">
-  <input type="number" id="weight-input" placeholder="0.0" step="0.1" min="1" max="400" style="flex:1;min-width:0;border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 14px;font-size:18px;font-weight:600;outline:none;">
-  <select id="unit-toggle" style="border:1.5px solid #e0e0e5;border-radius:12px;padding:11px 10px;font-size:15px;font-weight:600;outline:none;background:white;cursor:pointer;">
-    <option value="jin">斤</option>
-    <option value="kg">kg</option>
-  </select>
-</div>
+        <div class="weight-field" id="weight-field-main">
+          <label>空腹体重</label>
+          <div class="unit-toggle-wrap">
+            <input type="number" id="weight-input" placeholder="0.0" step="0.1" min="1" max="400" style="font-size:18px;font-weight:600;">
+            <button class="unit-btn active" id="btn-jin" onclick="setUnit('jin')">斤</button>
+            <button class="unit-btn" id="btn-kg" onclick="setUnit('kg')">kg</button>
+          </div>
         </div>
         <div class="weight-field note-field">
           <label>备注（可选）</label>
@@ -464,6 +487,7 @@
 
 <script>
 let cfg = {}, logs = {}, injects = {};
+let currentUnit = 'jin';
 
 function save() {
   localStorage.setItem('wl_cfg', JSON.stringify(cfg));
@@ -474,6 +498,14 @@ function load() {
   try { cfg = JSON.parse(localStorage.getItem('wl_cfg')) || {}; } catch(e){ cfg={}; }
   try { logs = JSON.parse(localStorage.getItem('wl_logs')) || {}; } catch(e){ logs={}; }
   try { injects = JSON.parse(localStorage.getItem('wl_injects')) || {}; } catch(e){ injects={}; }
+}
+
+function setUnit(unit) {
+  currentUnit = unit;
+  document.getElementById('btn-jin').classList.toggle('active', unit === 'jin');
+  document.getElementById('btn-kg').classList.toggle('active', unit === 'kg');
+  document.getElementById('weight-input').placeholder = unit === 'kg' ? '0.0 kg' : '0.0';
+  document.getElementById('weight-input').value = '';
 }
 
 function today() {
@@ -557,8 +589,8 @@ function saveSettings() {
 
 function logWeight() {
   let w = parseFloat(document.getElementById('weight-input').value);
-  if (!w||w<1) { alert('请输入正确的体重'); return; }
-  if (document.getElementById('unit-toggle').value === 'kg') w = +(w * 2).toFixed(1);
+  if (!w || w < 1) { alert('请输入正确的体重'); return; }
+  if (currentUnit === 'kg') w = +(w * 2).toFixed(1);
   if (w < 60) { alert('体重换算后小于60斤，请检查输入'); return; }
   const dateVal = document.getElementById('date-input').value;
   if (!dateVal) { alert('请选择日期'); return; }
@@ -577,13 +609,11 @@ function togglePatch() {
   logs[t].patch = !logs[t].patch;
   save(); renderTodayChecks(); renderHeatmap(); renderHistory();
 }
-
 function toggleInject() {
   const wk = weekKey();
   injects[wk] = !injects[wk];
   save(); renderTodayChecks(); renderWeeklySummary();
 }
-
 function toggleInjectWeek(wk) {
   injects[wk] = !injects[wk];
   save();
@@ -597,14 +627,12 @@ function render() {
   renderHeader(); renderHero(); renderTodayChecks();
   renderWeightChart(); renderHeatmap(); renderWeeklySummary(); renderHistory();
 }
-
 function renderHeader() {
   const d = new Date();
   const wd = ['周日','周一','周二','周三','周四','周五','周六'];
   document.getElementById('header-date').textContent =
     d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+wd[d.getDay()];
 }
-
 function renderHero() {
   const sorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
   const current = sorted.length ? logs[sorted[sorted.length-1]].weight : cfg.startWeight;
@@ -632,9 +660,15 @@ function renderHero() {
     const now = new Date(today()+'T00:00:00');
     daysSince = Math.round((now-first)/86400000)+1;
   }
-
+  let ps=0;
+  for(let i=0;i<365;i++){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(logs[s]&&logs[s].patch) ps++;
+    else if(i>0) break;
+  }
   document.getElementById('hero-streak').innerHTML =
-  `🗓️ 减肥第 <strong>${daysSince}</strong> 天`;
+    `🗓️ 减肥第 <strong>${daysSince}</strong> 天 &nbsp;|&nbsp; 🩹 药膏连续 <strong>${ps}</strong> 天`;
   let bmiVal = null;
   if (cfg.height && current) {
     const h = cfg.height/100;
@@ -644,7 +678,6 @@ function renderHero() {
   }
   renderBMIBar(bmiVal);
 }
-
 function renderTodayChecks() {
   const t = document.getElementById('date-input').value||today();
   const tl = logs[t]||{};
@@ -658,20 +691,14 @@ function renderTodayChecks() {
   if (tl.weight) {
     todayWeightEl.textContent = tl.weight + ' 斤';
     todayWeightEl.style.color = '#34c759';
-    document.getElementById('weight-input').placeholder = tl.weight+' 斤 (已记录)';
   } else {
     todayWeightEl.textContent = '未记录';
     todayWeightEl.style.color = '#c7c7cc';
-    document.getElementById('weight-input').placeholder = '0.0';
   }
 }
-
 function renderWeightChart() {
   const sortedDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
-  if (!sortedDates.length) {
-    if (weightChart) { weightChart.destroy(); weightChart=null; }
-    return;
-  }
+  if (!sortedDates.length) { if (weightChart) { weightChart.destroy(); weightChart=null; } return; }
   const recent = sortedDates.slice(-30);
   const labels = recent.map(d=>formatDateCN(d));
   const weights = recent.map(d=>logs[d].weight);
@@ -683,16 +710,12 @@ function renderWeightChart() {
   if (weightChart) weightChart.destroy();
   weightChart = new Chart(ctx,{
     type:'line',
-    data:{
-      labels,
-      datasets:[
-        { label:'每日体重', data:weights, borderColor:'#007aff', backgroundColor:'rgba(0,122,255,0.08)', borderWidth:2, pointRadius:4, pointBackgroundColor:'#007aff', tension:0.3, fill:true },
-        { label:'7天均线', data:ma, borderColor:'#ff9500', borderWidth:2, pointRadius:0, tension:0.4, fill:false, borderDash:[5,3] },
-        { label:'目标', data:Array(recent.length).fill(cfg.goalWeight), borderColor:'#34c759', borderWidth:1.5, pointRadius:0, fill:false, borderDash:[4,4] }
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
+    data:{ labels, datasets:[
+      { label:'每日体重', data:weights, borderColor:'#007aff', backgroundColor:'rgba(0,122,255,0.08)', borderWidth:2, pointRadius:4, pointBackgroundColor:'#007aff', tension:0.3, fill:true },
+      { label:'7天均线', data:ma, borderColor:'#ff9500', borderWidth:2, pointRadius:0, tension:0.4, fill:false, borderDash:[5,3] },
+      { label:'目标', data:Array(recent.length).fill(cfg.goalWeight), borderColor:'#34c759', borderWidth:1.5, pointRadius:0, fill:false, borderDash:[4,4] }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{display:true,position:'bottom',labels:{font:{size:11},padding:10,boxWidth:16}},
@@ -705,7 +728,6 @@ function renderWeightChart() {
     }
   });
 }
-
 function renderHeatmap() {
   const days = getDaysBefore(28);
   const t = today();
@@ -740,7 +762,6 @@ function getWeekDates(offset) {
   }
   return days;
 }
-
 function renderWeeklySummary() {
   const days = getWeekDates(weekOffset);
   const mon = new Date(days[0]+'T00:00:00');
@@ -755,15 +776,12 @@ function renderWeeklySummary() {
   const wk = weekKey(new Date(days[3]+'T00:00:00'));
   const injected = !!injects[wk];
   let weightChange = null;
-const lastThisWeek = weights.length ? weights[weights.length-1] : null;
-// 找本周第一天之前最近的一条记录作为基准
-const prevWeight = Object.keys(logs)
-  .filter(k => logs[k].weight && k < days[0])
-  .sort().reverse()[0];
-const baseline = prevWeight ? logs[prevWeight].weight : (weights.length ? weights[0] : null);
-if (lastThisWeek !== null && baseline !== null && (prevWeight || weights.length >= 2)) {
-  weightChange = +(lastThisWeek - baseline).toFixed(1);
-}
+  const lastThisWeek = weights.length ? weights[weights.length-1] : null;
+  const prevKey = Object.keys(logs).filter(k => logs[k].weight && k < days[0]).sort().reverse()[0];
+  const baseline = prevKey ? logs[prevKey].weight : (weights.length ? weights[0] : null);
+  if (lastThisWeek !== null && baseline !== null && (prevKey || weights.length >= 2)) {
+    weightChange = +(lastThisWeek - baseline).toFixed(1);
+  }
   const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
   const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
   document.getElementById('week-stats').innerHTML = `
@@ -803,7 +821,6 @@ function renderHistory() {
   const container = document.getElementById('log-list');
   if (!all.length) { container.innerHTML='<div class="empty-state">还没有记录，去打第一个卡吧！</div>'; return; }
   const allSorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
-
   const groups = {};
   all.forEach(d => {
     const dt = new Date(d+'T00:00:00');
@@ -811,18 +828,16 @@ function renderHistory() {
     if (!groups[key]) groups[key] = [];
     groups[key].push(d);
   });
-
   let html = '';
   Object.keys(groups).forEach(month => {
     const days = groups[month];
     const isCollapsed = collapsedMonths.has(month);
     const safeMonth = month.replace(/[^0-9年月]/g,'');
-    html += `
-      <div style="margin-bottom:12px">
-        <div onclick="toggleMonth('${safeMonth}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f9f9fb;border-radius:12px;cursor:pointer;user-select:none;">
-          <span style="font-weight:700;font-size:14px">${month}</span>
-          <span style="color:#6e6e73;font-size:13px">${days.length} 条 ${isCollapsed?'▸':'▾'}</span>
-        </div>`;
+    html += `<div style="margin-bottom:12px">
+      <div onclick="toggleMonth('${safeMonth}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f9f9fb;border-radius:12px;cursor:pointer;user-select:none;">
+        <span style="font-weight:700;font-size:14px">${month}</span>
+        <span style="color:#6e6e73;font-size:13px">${days.length} 条 ${isCollapsed?'▸':'▾'}</span>
+      </div>`;
     if (!isCollapsed) {
       html += `<table class="log-table" style="margin-top:4px"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th><th></th></tr></thead><tbody>`;
       days.forEach(d => {
@@ -834,10 +849,7 @@ function renderHistory() {
             <td>—</td>
             <td style="text-align:center"><input type="checkbox" id="edit-patch" ${log.patch?'checked':''} style="width:16px;height:16px;cursor:pointer"></td>
             <td><input type="text" id="edit-note" value="${log.note||''}" style="width:100px"></td>
-            <td>
-              <button class="save-btn" onclick="saveEdit('${d}')">保存</button>
-              <button class="cancel-btn" onclick="cancelEdit()">取消</button>
-            </td>
+            <td><button class="save-btn" onclick="saveEdit('${d}')">保存</button><button class="cancel-btn" onclick="cancelEdit()">取消</button></td>
           </tr>`;
           return;
         }
@@ -863,7 +875,6 @@ function renderHistory() {
     }
     html += '</div>';
   });
-
   container.innerHTML = html;
 }
 
@@ -872,29 +883,19 @@ function toggleMonth(month) {
   else collapsedMonths.add(month);
   renderHistory();
 }
-
-function startEdit(d) {
-  editingDate = d;
-  renderHistory();
-  document.getElementById('edit-weight').focus();
-}
-function cancelEdit() {
-  editingDate = null;
-  renderHistory();
-}
+function startEdit(d) { editingDate = d; renderHistory(); document.getElementById('edit-weight').focus(); }
+function cancelEdit() { editingDate = null; renderHistory(); }
 function saveEdit(d) {
   const w = parseFloat(document.getElementById('edit-weight').value);
   if (!w || w < 60) { alert('请输入正确的体重'); return; }
   logs[d].weight = w;
   logs[d].patch = document.getElementById('edit-patch').checked;
   logs[d].note = document.getElementById('edit-note').value || '';
-  editingDate = null;
-  save(); render();
+  editingDate = null; save(); render();
 }
 function deleteLog(d) {
   if (!confirm(`确定删除 ${formatDateCN(d)} 的记录吗？`)) return;
-  delete logs[d].weight;
-  delete logs[d].note;
+  delete logs[d].weight; delete logs[d].note;
   if (!logs[d].patch && !Object.keys(logs[d]).length) delete logs[d];
   save(); render();
 }
