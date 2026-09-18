@@ -448,15 +448,18 @@
   </div>
 </div>
 
+<!-- 里程碑弹窗 -->
 <div class="modal-overlay" id="milestone-modal">
   <div class="modal" style="max-width:320px;text-align:center">
     <div style="font-size:48px;margin-bottom:12px">🏆</div>
     <h2 id="ms-title" style="font-size:22px;margin-bottom:20px"></h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="ms-stats"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px" id="ms-stats"></div>
+    <button id="ms-delete-btn" style="background:none;border:none;color:#ff3b30;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;padding:4px 8px;border-radius:8px;">🗑 删除此记录</button>
     <button class="btn-primary" style="margin:0" onclick="document.getElementById('milestone-modal').classList.remove('open')">关闭</button>
   </div>
 </div>
 
+<!-- 设置弹窗 -->
 <div class="modal-overlay" id="settings-modal">
   <div class="modal">
     <h2>⚙️ 设置</h2>
@@ -678,11 +681,10 @@ function renderHero() {
   const circ = 2*Math.PI*46;
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
-  let daysSince = 0;
   const phaseStart = cfg.phaseStartDate || (sorted.length ? sorted[0] : today());
   const first = new Date(phaseStart+'T00:00:00');
   const now = new Date(today()+'T00:00:00');
-  daysSince = Math.round((now-first)/86400000)+1;
+  const daysSince = Math.round((now-first)/86400000)+1;
   let msHtml = milestones.length ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">' +
     milestones.map((m,i)=>`<span onclick="showMilestone(${i})" style="background:rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:11px;cursor:pointer">🏆 ${m.goalWeight}斤达标</span>`).join('') +
     '</div>' : '';
@@ -924,8 +926,17 @@ function showMilestone(i) {
     statItem('用时', (m.daysSpent||'—')+'天') +
     statItem('开始日期', fmt(m.startDate)) +
     statItem('达标日期', fmt(m.achievedDate));
+  document.getElementById('ms-delete-btn').onclick = () => {
+    if (confirm('确定删除这个里程碑记录吗？')) {
+      milestones.splice(i, 1);
+      save();
+      document.getElementById('milestone-modal').classList.remove('open');
+      render();
+    }
+  };
   document.getElementById('milestone-modal').classList.add('open');
 }
+
 document.addEventListener('click', e => {
   if (e.target === document.getElementById('milestone-modal')) {
     document.getElementById('milestone-modal').classList.remove('open');
