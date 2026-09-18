@@ -109,11 +109,8 @@
   }
   .btn-log:hover { background: #0066d6; }
 
-  /* unit toggle buttons */
   .unit-toggle-wrap { display: flex; gap: 6px; align-items: center; }
-  .unit-toggle-wrap input {
-    flex: 1; min-width: 0;
-  }
+  .unit-toggle-wrap input { flex: 1; min-width: 0; }
   .unit-btn {
     flex-shrink: 0; width: 44px; height: 44px;
     border: 1.5px solid #e0e0e5; border-radius: 12px;
@@ -121,11 +118,8 @@
     color: #6e6e73; cursor: pointer; transition: all 0.15s;
     display: flex; align-items: center; justify-content: center;
   }
-  .unit-btn.active {
-    background: #007aff; border-color: #007aff; color: white;
-  }
+  .unit-btn.active { background: #007aff; border-color: #007aff; color: white; }
 
-  /* BMI Bar */
   .bmi-card {
     background: white; border-radius: 20px; padding: 24px;
     margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -392,31 +386,17 @@
         </div>
       </div>
       <div class="bmi-sections">
-        <div class="bmi-section underweight" id="bmi-sec-under">
-          <div class="s-label">偏轻</div>
-          <div class="s-range">&lt; 18.5</div>
-        </div>
-        <div class="bmi-section normal" id="bmi-sec-normal">
-          <div class="s-label">正常</div>
-          <div class="s-range">18.5 – 24</div>
-        </div>
-        <div class="bmi-section overweight" id="bmi-sec-over">
-          <div class="s-label">超重</div>
-          <div class="s-range">24 – 28</div>
-        </div>
-        <div class="bmi-section obese" id="bmi-sec-obese">
-          <div class="s-label">肥胖</div>
-          <div class="s-range">&gt; 28</div>
-        </div>
+        <div class="bmi-section underweight" id="bmi-sec-under"><div class="s-label">偏轻</div><div class="s-range">&lt; 18.5</div></div>
+        <div class="bmi-section normal" id="bmi-sec-normal"><div class="s-label">正常</div><div class="s-range">18.5 – 24</div></div>
+        <div class="bmi-section overweight" id="bmi-sec-over"><div class="s-label">超重</div><div class="s-range">24 – 28</div></div>
+        <div class="bmi-section obese" id="bmi-sec-obese"><div class="s-label">肥胖</div><div class="s-range">&gt; 28</div></div>
       </div>
     </div>
 
     <div class="chart-grid">
       <div class="chart-card">
         <h2>📈 体重趋势</h2>
-        <div class="chart-wrap" style="height:220px">
-          <canvas id="weight-chart"></canvas>
-        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="weight-chart"></canvas></div>
       </div>
       <div class="chart-card">
         <h2>🔥 打卡热图（近28天）</h2>
@@ -468,6 +448,15 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="milestone-modal">
+  <div class="modal" style="max-width:320px;text-align:center">
+    <div style="font-size:48px;margin-bottom:12px">🏆</div>
+    <h2 id="ms-title" style="font-size:22px;margin-bottom:20px"></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="ms-stats"></div>
+    <button class="btn-primary" style="margin:0" onclick="document.getElementById('milestone-modal').classList.remove('open')">关闭</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="settings-modal">
   <div class="modal">
     <h2>⚙️ 设置</h2>
@@ -475,6 +464,7 @@
     <div class="field"><label>目标体重 (斤)</label><input type="number" id="s-goal" step="0.5"></div>
     <div class="field"><label>身高 (cm)</label><input type="number" id="s-height" step="1"></div>
     <div class="field"><label>药膏名称</label><input type="text" id="s-patch-name"></div>
+    <div class="field"><label>本阶段开始日期</label><input type="date" id="s-phase-start"></div>
     <div class="field">
       <label>每周打针日</label>
       <select id="s-inject-day">
@@ -573,7 +563,8 @@ function doSetup() {
   cfg = {
     startWeight:s, goalWeight:g, height:h,
     patchName: document.getElementById('setup-patch-name').value||'药膏',
-    injectDay: parseInt(document.getElementById('setup-inject-day').value)
+    injectDay: parseInt(document.getElementById('setup-inject-day').value),
+    phaseStartDate: today()
   };
   save(); showApp();
 }
@@ -583,6 +574,7 @@ function openSettings() {
   document.getElementById('s-goal').value = cfg.goalWeight;
   document.getElementById('s-height').value = cfg.height;
   document.getElementById('s-patch-name').value = cfg.patchName||'药膏';
+  document.getElementById('s-phase-start').value = cfg.phaseStartDate||today();
   document.getElementById('s-inject-day').value = cfg.injectDay??0;
   document.getElementById('settings-modal').classList.add('open');
 }
@@ -595,13 +587,20 @@ function saveSettings() {
   const _sorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
   const _cur = _sorted.length ? logs[_sorted[_sorted.length-1]].weight : cfg.startWeight;
   if (cfg.goalWeight && _cur <= cfg.goalWeight && g !== cfg.goalWeight) {
+    const _startDate = cfg.phaseStartDate || (_sorted.length ? _sorted[0] : today());
+    const _days = Math.round((new Date(today()+'T00:00:00') - new Date(_startDate+'T00:00:00')) / 86400000) + 1;
     milestones.push({
       goalWeight: cfg.goalWeight,
+      startWeight: cfg.startWeight,
+      achievedWeight: _cur,
+      startDate: _startDate,
       achievedDate: today(),
+      daysSpent: _days,
       lostInPhase: +(cfg.startWeight - _cur).toFixed(1)
     });
   }
   cfg.startWeight=s; cfg.goalWeight=g; cfg.height=h;
+  cfg.phaseStartDate = document.getElementById('s-phase-start').value || today();
   cfg.patchName=document.getElementById('s-patch-name').value||'药膏';
   cfg.injectDay=parseInt(document.getElementById('s-inject-day').value);
   save(); closeSettings(); render();
@@ -629,13 +628,11 @@ function togglePatch() {
   logs[t].patch = !logs[t].patch;
   save(); renderTodayChecks(); renderHeatmap(); renderHistory();
 }
-
 function toggleInject() {
   const wk = weekKey();
   injects[wk] = !injects[wk];
   save(); renderTodayChecks(); renderWeeklySummary();
 }
-
 function toggleInjectWeek(wk) {
   injects[wk] = !injects[wk];
   save();
@@ -681,15 +678,13 @@ function renderHero() {
   const circ = 2*Math.PI*46;
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
-  const allDates = Object.keys(logs).filter(k=>logs[k].weight).sort();
   let daysSince = 0;
-  if (allDates.length>0) {
-    const first = new Date(allDates[0]+'T00:00:00');
-    const now = new Date(today()+'T00:00:00');
-    daysSince = Math.round((now-first)/86400000)+1;
-  }
+  const phaseStart = cfg.phaseStartDate || (sorted.length ? sorted[0] : today());
+  const first = new Date(phaseStart+'T00:00:00');
+  const now = new Date(today()+'T00:00:00');
+  daysSince = Math.round((now-first)/86400000)+1;
   let msHtml = milestones.length ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">' +
-    milestones.map(m=>`<span style="background:rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:11px">🏆 ${m.goalWeight}斤达标</span>`).join('') +
+    milestones.map((m,i)=>`<span onclick="showMilestone(${i})" style="background:rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:11px;cursor:pointer">🏆 ${m.goalWeight}斤达标</span>`).join('') +
     '</div>' : '';
   document.getElementById('hero-streak').innerHTML =
     `🗓️ 减肥第 <strong>${daysSince}</strong> 天${msHtml}`;
@@ -810,7 +805,6 @@ function renderWeeklySummary() {
   const patchCount = days.filter(d => logs[d] && logs[d].patch).length;
   const wk = weekKey(new Date(days[3]+'T00:00:00'));
   const injected = !!injects[wk];
-
   let weightChange = null;
   const lastThisWeek = weights.length ? weights[weights.length-1] : null;
   const prevKey = Object.keys(logs).filter(k => logs[k].weight && k < days[0]).sort().reverse()[0];
@@ -818,7 +812,6 @@ function renderWeeklySummary() {
   if (lastThisWeek !== null && baseline !== null && (prevKey || weights.length >= 2)) {
     weightChange = +(lastThisWeek - baseline).toFixed(1);
   }
-
   const changeStr = weightChange === null ? '—' : (weightChange > 0 ? '+'+weightChange : String(weightChange));
   const changeClass = weightChange === null ? '' : weightChange < 0 ? 'highlight-green' : weightChange > 0 ? 'highlight-red' : '';
   document.getElementById('week-stats').innerHTML = `
@@ -870,12 +863,11 @@ function renderHistory() {
     const days = groups[month];
     const isCollapsed = collapsedMonths.has(month);
     const safeMonth = month.replace(/[^0-9年月]/g,'');
-    html += `
-      <div style="margin-bottom:12px">
-        <div onclick="toggleMonth('${safeMonth}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f9f9fb;border-radius:12px;cursor:pointer;user-select:none;">
-          <span style="font-weight:700;font-size:14px">${month}</span>
-          <span style="color:#6e6e73;font-size:13px">${days.length} 条 ${isCollapsed?'▸':'▾'}</span>
-        </div>`;
+    html += `<div style="margin-bottom:12px">
+      <div onclick="toggleMonth('${safeMonth}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f9f9fb;border-radius:12px;cursor:pointer;user-select:none;">
+        <span style="font-weight:700;font-size:14px">${month}</span>
+        <span style="color:#6e6e73;font-size:13px">${days.length} 条 ${isCollapsed?'▸':'▾'}</span>
+      </div>`;
     if (!isCollapsed) {
       html += `<table class="log-table" style="margin-top:4px"><thead><tr><th>日期</th><th>体重</th><th>变化</th><th>药膏</th><th>备注</th><th></th></tr></thead><tbody>`;
       days.forEach(d => {
@@ -919,15 +911,33 @@ function renderHistory() {
   container.innerHTML = html;
 }
 
+function showMilestone(i) {
+  const m = milestones[i];
+  document.getElementById('ms-title').textContent = m.goalWeight + '斤 达标！';
+  const fmt = s => s ? formatDateCN(s) : '—';
+  const statItem = (label, val) =>
+    `<div style="background:#f9f9fb;border-radius:12px;padding:12px"><div style="font-size:18px;font-weight:800;color:#1d1d1f">${val}</div><div style="font-size:11px;color:#6e6e73;margin-top:3px">${label}</div></div>`;
+  document.getElementById('ms-stats').innerHTML =
+    statItem('初始体重', (m.startWeight||'—')+'斤') +
+    statItem('达标体重', (m.achievedWeight||m.goalWeight)+'斤') +
+    statItem('本阶段减重', '-'+(m.lostInPhase||'—')+'斤') +
+    statItem('用时', (m.daysSpent||'—')+'天') +
+    statItem('开始日期', fmt(m.startDate)) +
+    statItem('达标日期', fmt(m.achievedDate));
+  document.getElementById('milestone-modal').classList.add('open');
+}
+document.addEventListener('click', e => {
+  if (e.target === document.getElementById('milestone-modal')) {
+    document.getElementById('milestone-modal').classList.remove('open');
+  }
+});
+
 function toggleMonth(month) {
   if (collapsedMonths.has(month)) collapsedMonths.delete(month);
   else collapsedMonths.add(month);
   renderHistory();
 }
-function startEdit(d) {
-  editingDate = d; renderHistory();
-  document.getElementById('edit-weight').focus();
-}
+function startEdit(d) { editingDate = d; renderHistory(); document.getElementById('edit-weight').focus(); }
 function cancelEdit() { editingDate = null; renderHistory(); }
 function saveEdit(d) {
   const w = parseFloat(document.getElementById('edit-weight').value);
