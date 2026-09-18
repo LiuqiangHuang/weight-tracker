@@ -700,8 +700,12 @@ function renderHero() {
   let msHtml = milestones.length ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">' +
     milestones.map((m,i)=>`<span onclick="showMilestone(${i})" style="background:rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:11px;cursor:pointer">🏆 ${m.goalWeight}斤达标</span>`).join('') +
     '</div>' : '';
-  document.getElementById('hero-streak').innerHTML =
-    `🗓️ 减肥第 <strong>${daysSince}</strong> 天${msHtml}`;
+    const phaseStartDate = cfg.phaseStartDate || startDate;
+  const phaseDays = Math.round((now - new Date(phaseStartDate+'T00:00:00')) / 86400000) + 1;
+  const dayStr = phaseDays !== daysSince
+    ? `🗓️ 总第 <strong>${daysSince}</strong> 天 · 本阶段第 <strong>${phaseDays}</strong> 天`
+    : `🗓️ 减肥第 <strong>${daysSince}</strong> 天`;
+  document.getElementById('hero-streak').innerHTML = dayStr + msHtml;
 
   let bmiVal = null;
   if (cfg.height && current) {
