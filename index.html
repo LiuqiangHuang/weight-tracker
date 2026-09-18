@@ -605,7 +605,7 @@ function saveSettings() {
   }
   const prevOriginalStartDate = cfg.originalStartDate;
   cfg.startWeight=s; cfg.goalWeight=g; cfg.height=h;
-  cfg.phaseStartDate = document.getElementById('s-phase-start').value || today();
+  cfg.originalStartDate = sorted.length ? sorted[0] : (cfg.phaseStartDate || today());
   cfg.originalStartDate = prevOriginalStartDate || cfg.phaseStartDate;
   cfg.patchName=document.getElementById('s-patch-name').value||'药膏';
   cfg.injectDay=parseInt(document.getElementById('s-inject-day').value);
