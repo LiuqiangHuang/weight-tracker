@@ -321,7 +321,7 @@
           </div>
           <div class="hero-stat">
             <div class="val" id="stat-lost">—</div>
-            <div class="label">累计已减 斤</div>
+            <div class="label">本阶段已减 斤</div>
           </div>
           <div class="hero-stat">
             <div class="val" id="stat-remain">—</div>
@@ -567,7 +567,8 @@ function doSetup() {
     startWeight:s, goalWeight:g, height:h,
     patchName: document.getElementById('setup-patch-name').value||'药膏',
     injectDay: parseInt(document.getElementById('setup-inject-day').value),
-    phaseStartDate: today()
+    phaseStartDate: today(),
+    originalStartDate: today()
   };
   save(); showApp();
 }
@@ -602,8 +603,10 @@ function saveSettings() {
       lostInPhase: +(cfg.startWeight - _cur).toFixed(1)
     });
   }
+  const prevOriginalStartDate = cfg.originalStartDate;
   cfg.startWeight=s; cfg.goalWeight=g; cfg.height=h;
   cfg.phaseStartDate = document.getElementById('s-phase-start').value || today();
+  cfg.originalStartDate = prevOriginalStartDate || cfg.phaseStartDate;
   cfg.patchName=document.getElementById('s-patch-name').value||'药膏';
   cfg.injectDay=parseInt(document.getElementById('s-inject-day').value);
   save(); closeSettings(); render();
@@ -662,34 +665,44 @@ function renderHero() {
   const current = sorted.length ? logs[sorted[sorted.length-1]].weight : cfg.startWeight;
   const prevLost = milestones.reduce((sum, m) => sum + (m.lostInPhase || 0), 0);
   const currentPhaseLost = +(cfg.startWeight - current).toFixed(1);
-  const lost = +(prevLost + currentPhaseLost).toFixed(1);
-  const remain = +(current-cfg.goalWeight).toFixed(1);
-  const totalToLose = cfg.startWeight-cfg.goalWeight;
-  const pct = Math.max(0,Math.min(100,Math.round(lost/totalToLose*100)));
+  const totalLost = +(prevLost + currentPhaseLost).toFixed(1);
+  const remain = +(current - cfg.goalWeight).toFixed(1);
+  const phaseTotal = +(cfg.startWeight - cfg.goalWeight).toFixed(1);
+  const pct = Math.max(0, Math.min(100, phaseTotal > 0 ? Math.round(currentPhaseLost / phaseTotal * 100) : 0));
+
   document.getElementById('stat-current').textContent = current;
+
+  // 本阶段大字，累计小字
   const phaseStr = currentPhaseLost > 0 ? '-'+currentPhaseLost : String(currentPhaseLost);
-  document.getElementById('stat-lost').innerHTML = (lost>0?'-'+lost:lost) +
-    (milestones.length ? `<div style="font-size:11px;opacity:0.75;margin-top:2px">本阶段 ${phaseStr}</div>` : '');
-  if (remain>0) {
+  const totalStr = totalLost > 0 ? '-'+totalLost : String(totalLost);
+  document.getElementById('stat-lost').innerHTML = phaseStr +
+    (milestones.length ? `<div style="font-size:11px;opacity:0.75;margin-top:2px">累计 ${totalStr}</div>` : '');
+
+  if (remain > 0) {
     document.getElementById('stat-remain').textContent = remain;
     document.getElementById('remain-label').textContent = '距目标 斤（'+pct+'%）';
   } else {
     document.getElementById('stat-remain').textContent = '✅达标';
     document.getElementById('remain-label').textContent = '距目标';
   }
+
   document.getElementById('ring-pct').textContent = pct+'%';
   const circ = 2*Math.PI*46;
   document.getElementById('ring-fill').style.strokeDasharray = circ;
   document.getElementById('ring-fill').style.strokeDashoffset = circ*(1-pct/100);
-  const phaseStart = cfg.phaseStartDate || (sorted.length ? sorted[0] : today());
-  const first = new Date(phaseStart+'T00:00:00');
+
+  // 天数从原始起始日期算，永不重置
+  const startDate = cfg.originalStartDate || cfg.phaseStartDate || (sorted.length ? sorted[0] : today());
+  const first = new Date(startDate+'T00:00:00');
   const now = new Date(today()+'T00:00:00');
   const daysSince = Math.round((now-first)/86400000)+1;
+
   let msHtml = milestones.length ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">' +
     milestones.map((m,i)=>`<span onclick="showMilestone(${i})" style="background:rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:11px;cursor:pointer">🏆 ${m.goalWeight}斤达标</span>`).join('') +
     '</div>' : '';
   document.getElementById('hero-streak').innerHTML =
     `🗓️ 减肥第 <strong>${daysSince}</strong> 天${msHtml}`;
+
   let bmiVal = null;
   if (cfg.height && current) {
     const h = cfg.height/100;
@@ -971,6 +984,12 @@ function showApp() {
 }
 function init() {
   load();
+  // 兼容旧数据：如果没有 originalStartDate，从 phaseStartDate 或最早日志推算
+  if (cfg.startWeight && !cfg.originalStartDate) {
+    const sorted = Object.keys(logs).filter(k=>logs[k].weight).sort();
+    cfg.originalStartDate = cfg.phaseStartDate || (sorted.length ? sorted[0] : today());
+    save();
+  }
   document.getElementById('date-input').value = today();
   document.getElementById('date-input').max = today();
   document.getElementById('date-input').addEventListener('change',()=>renderTodayChecks());
